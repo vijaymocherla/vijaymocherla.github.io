@@ -1,0 +1,186 @@
+----------
+
+Sun Dec 06 2020 11:23:56 GMT-0500 (Eastern Standard Time)
+
+fatal: could not read Username for 'https://github.com': No such device or address
+
+
+----------
+
+Sun Dec 06 2020 12:08:57 GMT-0500 (Eastern Standard Time)
+
+Everything up-to-date
+
+
+----------
+
+Sun Dec 06 2020 12:18:35 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   0b9b5c4..8436263  master -> master
+
+
+----------
+
+Sun Dec 06 2020 12:18:58 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   8436263..8c07a3e  master -> master
+
+
+----------
+
+Sun Dec 06 2020 13:11:23 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   8c07a3e..6e114c4  master -> master
+
+
+----------
+
+Sun Dec 06 2020 14:54:26 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   6e114c4..3822c55  master -> master
+
+
+----------
+
+Sun Dec 06 2020 15:23:19 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   3822c55..a5a5f08  master -> master
+
+
+----------
+
+Sun Dec 06 2020 16:28:36 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   a5a5f08..3885732  master -> master
+
+
+----------
+
+Mon Dec 07 2020 00:56:38 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   3885732..118936a  master -> master
+
+
+----------
+
+Mon Dec 07 2020 01:01:32 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   118936a..e43e6ea  master -> master
+
+
+----------
+
+Sat Dec 12 2020 10:04:17 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   d32a755..6951dab  master -> master
+
+
+----------
+
+Sat Dec 12 2020 12:26:29 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   6fa508c..041371f  master -> master
+
+
+----------
+
+Sun Dec 13 2020 01:22:21 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   31cc06f..c140396  master -> master
+
+
+----------
+
+Sun Dec 13 2020 01:24:14 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   c140396..6ef4335  master -> master
+
+
+----------
+
+Sun Dec 13 2020 08:23:10 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'git@github.com:vijaymocherla/vijaymocherla.github.io.git'
+
+
+----------
+
+Sun Dec 13 2020 08:23:10 GMT-0500 (Eastern Standard Time)
+
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+
+----------
+
+Wed Dec 16 2020 11:59:58 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   db5020f..aace802  master -> master
+
+
+----------
+
+Wed Dec 16 2020 14:46:29 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   aace802..c8a3a2a  master -> master
+
+
+----------
+
+Thu Dec 17 2020 12:41:47 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   c8a3a2a..4c89ec6  master -> master
+
+
+----------
+
+Fri Dec 18 2020 05:41:29 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   4c89ec6..2c433c6  master -> master
+
+
+----------
+
+Fri Dec 18 2020 05:42:51 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   2c433c6..568ae18  master -> master
+
+
+----------
+
+Fri Dec 18 2020 09:04:48 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   568ae18..629cfb5  master -> master
+
+
+----------
+
+Sat Dec 19 2020 05:56:58 GMT-0500 (Eastern Standard Time)
+
+To github.com:vijaymocherla/vijaymocherla.github.io.git
+   629cfb5..6e350b6  master -> master
+
+

@@ -1,0 +1,12 @@
+---
+layout: default
+---
+<div style="text-align: center;padding-top:10px;padding-bottom: 20px;">
+<h2>{{ page.title }}
+</h2>	
+</div>
+<div style="text-align: left;">{{ content }}</div>
+<div> <hr style="width:80%"></hr> </div>
+	
+<p style="color: grey;">Posted on {{ page.date | date_to_long_string:"ordinal" }} by <a href="{{ page.author_link}}"> {{ page.author }}</a> </p>
+ 
