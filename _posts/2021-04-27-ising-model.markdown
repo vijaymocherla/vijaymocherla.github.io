@@ -3,7 +3,7 @@ layout: post
 author: Sai Vijay Mocherla
 title: "Ising Model and Phase transitions"
 date:   2021-04-27 05:30:00 -0500
-categories: Notes, Statistical Mechanics, Phase Transitions
+categories: notes
 author_link: "/about.html"
 author: Sai Vijay Mocherla
 

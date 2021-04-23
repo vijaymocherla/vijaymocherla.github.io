@@ -2,7 +2,7 @@
 layout: post
 title:  "Resources for Condensed Matter Theory"
 date:   2021-04-01 05:30:00 -0500
-categories: condensed matter, resource recommendation 
+categories: resource_recommendation 
 author_link: "/about.html"
 author: Sai Vijay Mocherla
 ---
