@@ -1,12 +1,18 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
-date:   2020-12-13 06:56:27 -0500
-categories: jekyll update
+title:  "Resources for Condensed Matter Theory"
+date:   2021-04-01 05:30:00 -0500
+categories: condensed matter, resource recommendation 
 author_link: "/about.html"
 author: Sai Vijay Mocherla
 ---
-# Heading 
+# Some resource for Condensed Matter   
+
+
+
+
+
+### This from the markdown template(to be removed)
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
 Jekyll requires blog post files to be named according to the following format:
