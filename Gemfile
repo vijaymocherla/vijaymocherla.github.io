@@ -35,6 +35,10 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 
 gem "kramdown", ">= 2.3.0"
 
+# remediation for alert CVE-2021-28965 from Github
+
+gem "rexml", ">= 3.2.5"
+
 
 gem "github-pages" , group: :jekyll_plugins
 # If you have any plugins, put them here!

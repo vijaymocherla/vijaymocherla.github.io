@@ -6,7 +6,7 @@ categories: resource_recommendation
 author_link: "/about.html"
 author: Sai Vijay Mocherla
 ---
-# Some resource for Condensed Matter   
+
 
 
 
