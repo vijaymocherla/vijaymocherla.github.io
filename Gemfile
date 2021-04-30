@@ -33,7 +33,11 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 
 
 
-gem "kramdown", ">= 2.3.0"
+# gem "kramdown", ">= 2.3.0"
+
+
+gem "kramdown", ">= 2.3.1"
+
 
 # remediation for alert CVE-2021-28965 from Github
 
