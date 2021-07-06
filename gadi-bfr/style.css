@@ -1,0 +1,118 @@
+#red{
+	background-color: red;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+#green{
+	background-color: green;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+#stock table input{
+	width: 100%;
+	overflow-y: auto;
+}
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+    padding-right: 5%;
+    padding-left: 5%;
+    padding-top: 2%;
+    padding-bottom: 2.5%;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto;
+    max-width: 1000px;
+    font-family: font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
+    border-style: ridge;
+    border-width: 2px;
+    border-radius: 10px;
+}
+
+.flex-container {
+    width: 100%;
+}
+.flex-table {
+    display: grid;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-style: bold;
+  
+}  
+/*
+For our website content to scale to size dynamically, 
+we can use media queries and considering some common breakpoints,
+we definetly can make it look good.
+
+Here are some common breakpoints for widths of devices:
+
+    320px - 480px: Mobile devices
+    481px - 768px: iPads, Tablets
+    769px - 1024px: Small screens, laptops
+    1025px - 1200px: Desktops, large screens
+    1201px and more — Extra large screens, TV
+*/
+
+/* Mobile device */
+@media screen and (max-width: 480px) 
+{
+  .text 
+  {
+    font-size: 14px !important;
+  }
+  html {
+  	padding: 2%;
+  }
+}
+/* iPads and tablets */
+@media screen and (max-width: 768px) 
+{
+  .text 
+  {
+    font-size: 16px !important;
+  }
+}
+
+/* Small screens, laptops, macbooks etc */
+@media screen and (max-width: 1024px) 
+{
+  .text 
+  {
+    font-size: 18px !important;
+  }
+}
+
+/* Wide screen monitors, Extra large screen, TVs */
+@media screen and (min-device-width: 1201px) 
+{
+  .text 
+  {
+    font-size: 18px !important;
+  }
+}

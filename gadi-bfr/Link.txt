@@ -1,0 +1,2 @@
+ec2-34-255-190-174.eu-west-1.compute.amazonaws.com
+https://bf-research.s3-eu-west-1.amazonaws.com/bfrrr.zip
