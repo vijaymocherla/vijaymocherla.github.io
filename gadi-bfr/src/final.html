@@ -6,8 +6,8 @@
 		<script type="text/javascript" src="../scripts/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="../scripts/canvasjs.min.js"></script>
 		<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
-		<link rel = "stylesheet" type = "text/css" href ="../style.css">
 		<link rel = "stylesheet" type = "text/css" href ="../bootstrap/css/bootstrap.css">
+		<link rel = "stylesheet" type = "text/css" href ="../style.css">
 		<script type = "text/javascript">
 			window.onload = function ()
 			{
@@ -148,8 +148,9 @@
 				  cd.style.display = "inline-block";
 				  cd.style.textAlign = "center";
 				  cd.style.fontWeight = "bold";
-				  cd.style.width = button.offsetWidth + "px";
-				  cd.style.height = button.offsetHeight + "px";
+				  cd.style.fontSize = "18px"
+				  cd.style.width = " 200px";
+				  cd.style.height = "auto";
 				  // Init countdown
 				  button.parentNode.appendChild(countdownDisplay);
 				  countdownRefresh();
@@ -612,20 +613,16 @@
 			}
 		</script>	
 	</head>
-	<body style="max-width:100%; zoom:90%;">
-		<header>
-			<div style="text-align: center;">
+	<body>
+		<div id="main-container" class="container" >
+			<div style="text-align: center; margin: auto;">
 				<h2>The Stock Simulation Game!</h2>
 			</div>	
-		</header>	
-		<main>
-			<div class="container" style="width:100%;height:100%;" align="center">
-				<div class="container" id="stock">	
-					<div class="row row-centered-pos" >
-						<!-- stock A cell -->			
-						<div class="col-md-6" style="border-right: groove;" >
-							<p id="chartContainer1" style="height: 275px; width: 450px;"></p>
-							<table class="table table-responsive" style="width:450px">
+			<div class="grid-container">
+				<!-- stock A cell -->			
+				<div class="grid-item" style="width: auto;"> 
+					<div id="chartContainer1" style="width: 100%; height: 300px;display: inline-block;"></div>
+					<table class="table table-responsive">
 								<tr>
 									<td>
 									<input class="form-control" type="text" name= "BuyA" id= "BuyA" value= "" placeholder="0"/>
@@ -643,13 +640,13 @@
 									<label>Available Shares:</label> <label id="curShare1Out">100</label>
 									</td>
 								</tr>
-							</table>
-						</div>
-						<!-- stock B cell -->
-						<div class="col-md-6" style="width:450px">
-							<p id="chartContainer2" style="height: 275px; width: 450px;"></p>
-							<table class="table table-responsive"style="width:450px">
-								<tr>
+					</table>
+				</div>
+				<!-- stock B cell -->
+				<div class="grid-item" style="width: auto;">
+					<div id="chartContainer2" style="width: 100%; height: 300px;display: inline-block;align-content: center"></div>
+					<table class="table table-responsive">
+						<tr>
 									<td>
 									<input class="form-control"  type= "text" name= "BuyB" id= "BuyB" value= "" placeholder="0"/>
 									</td>
@@ -665,16 +662,47 @@
 									<td style="width: 27%; align: right;font-size: 13px;">
 									<label>Available Shares:</label> <label id="curShare2Out">100</label>
 									</td>
-								</tr>
-							</table>
+						</tr>
+					</table>
+				</div>
+				<!-- panel 1 -->
+				<div class="grid-item">
+					<br />
+					<br />
+					<div>
+						<label for="total" >Cash Available</label>
+					</div>
+					<div>
+						<input   class="form-control" type= text name= "total" id= "total" readonly/>
+					</div>
+					<br />
+					<br />
+					<div>
+						<label for="total" >Portfolio Value</label>
+					</div>
+					<div>
+						<input   class="form-control" type= text name= "portfolio" id= "portfolio" readonly/>
+					</div>
+					<table>
+						<div class="row" style="display:inline;">
+							<span class="dot" style="background-color: green;"></span><div>Bought</div>
 						</div>
-					</div><br>
-					<div class="row row-centered-pos">
-						<!-- stock C cell -->			
-						<div class="col-md-6" style="border-right: groove;">
-							<p id="chartContainer3" style="height: 275px; width: 450px;"></p>
-							<table class="table table-responsive"style="width:450px">
-								<tr>
+						<div class="row" style="display:inline;">
+							<span class="dot" style="background-color: red;"></span><div>Sold</div>
+						</div>
+					</table>	
+					<div style="margin: auto;">	
+						<button id="saveData" class="btn btn-sm btn-success" style="display: none">SAVE <span class="glyphicon glyphicon-save"></span></button>
+						<p>			
+							<!--<button style="margin-left: 10px;height: 40px;color: red" type="button" value="save" id="save" onclick="saveData();">SAVE</button> -->
+						</p>
+					</div>
+				</div>		
+				<!-- stock C cell -->			
+				<div class="grid-item" style="width: auto;">
+					<div id="chartContainer3" style="width: 100%; height: 300px;display: inline-block;align-content: center"></div>
+					<table class="table table-responsive">
+						<tr>
 									<td>
 									<input class="form-control" style="width:100%;" type= "text" name= "BuyC" id= "BuyC" value= "" placeholder="0"/>
 									</td>
@@ -690,14 +718,14 @@
 									<td style="width: 27%; align: right;font-size: 13px;">
 									<label>Available Shares:</label> <label id="curShare3Out">100</label>
 									</td>
-								</tr>
-							</table>
-						</div>
-						<!-- stock D cell -->
-						<div class="col-md-6" style="width:450px">
-							<p id="chartContainer4" style="height: 275px; width: 450px;"></p>	
-							<table class="table table-responsive"style="width:450px">
-								<tr>
+						</tr>
+					</table>
+				</div>
+				<!-- stock D cell -->
+				<div class="grid-item" style="width: auto;">
+					<div id="chartContainer4" style="width: 100%; height: 300px;display: inline-block;"></div>	
+					<table class="table table-responsive">
+						<tr>
 									<td>
 									<input class="form-control" style="width:100%;" type= "text" name= "BuyD" id= "BuyD" value= "" placeholder="0"/>
 									</td>
@@ -713,51 +741,14 @@
 									<td style="width: 27%; align: right;font-size: 13px;">
 									<label>Available Shares:</label> <label id="curShare4Out">100</label>
 									</td>
-								</tr>
-							</table>
-						</div>
-					</div><br>
-				</div>
-				<div class="container">	
-					<p>			
-				
-
-					<!--<button style="margin-left: 10px;height: 40px;color: red" type="button" value="save" id="save" onclick="saveData();">SAVE</button> -->
-					</p>
-					<table class="table table-hover" id="table" style="width: 80%;align: center">
-						<tr>
-							<td>
-								<label for="total" >Cash Available</label>
-							</td>
-							<td>
-								<input   class="form-control" type= text name= "total" id= "total" readonly/>
-							</td>
-						  	<td>
-						  		<label for="total" >Portfolio Value</label>
-						  	</td>
-							<td>
-								<input   class="form-control" type= text name= "portfolio" id= "portfolio" readonly/>
-							</td>				
-							<td align="left">
-								<p id="green">
-							</td>
-							<td align="left">
-								Bought
-							</td>
-							<td align="left">
-								<p id="red">
-							</td>
-							<td align="left">
-								Sold
-							</td>
-							<td>	
-								<button id="saveData" class="btn btn-sm btn-success" style="display: none">SAVE <span class="glyphicon glyphicon-save"></span></button>
-							</td>
 						</tr>
 					</table>
 				</div>
-			</div>		
-		</main>	
+				<!-- blank panel 2 -->
+				<div class="grid-item" >					
+				</div>
+			<div>		
+		</div>		
 	</body>		
 </html>
 
