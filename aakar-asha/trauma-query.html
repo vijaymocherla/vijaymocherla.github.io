@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, intial-scale= 1.0">
+        <link rel="stylesheet" href="stylesheet.css">
+        <script>
+        	function Notes() {
+        		let callNotes = document.getElementById('callNotes');
+        		let attender = document.getElementById('attender').value;
+        		let relation = document.getElementById('relation').value;
+        		let mobileNumber = document.getElementById('mobileNumber').value;
+        		let alternateNumber = document.getElementById('alternateNumber').value;
+        		let profession = document.getElementById('profession').value;
+        		let earningMember = document.getElementById('earningMember').value;
+	    		let patientName = document.getElementById('patientName').value;
+	    		let age = document.getElementById('age').value;
+	    		let gender = document.getElementById('gender').value;
+	    		let address = document.getElementById('address').value;
+	    		let emergency = document.getElementById('emergency').value;
+	    		let notEmergency = document.getElementById('notEmergency').value; 
+	    		let Injury = document.getElementById('Injury').value; 
+	    		let bodyPart = document.getElementById('bodyPart').value; 
+	    		let injuryDetails = document.getElementById('injuryDetails').value;
+	    		let reportDetails = document.getElementById('reportDetails').value;
+	    		let medicationDetails = document.getElementById('medicationDetails').value;
+	    		let response = document.getElementById('response').value;
+	    		callNotes.innerHTML = 'FROM 	'+'	'
+        								+ 'Attender Name: '+attender+';	'
+        								+ 'Relation: '+relation+';	'
+        								+ 'Mobile Number: '+mobileNumber+';	'
+        								+ 'Alternate Number: '+alternateNumber+';	'
+        								+ 'Profession: '+profession+';	'
+        								+ 'Earning memebers in the family: '+earningMember+';	'
+        								+ 'Patient Name: '+patientName+';	'
+        								+ 'Age: '+age+';	'
+        								+ 'Gender: '+gender+';	'
+        								+ 'Address: '+address+';	'
+						    		 	+ 'INFORMATION' + ';	'
+										+ 'Emergency or Not?' + emergency +';	'
+										+ 'If not emergency, how many days since accident	'+ notEmergency+';	'
+										+ 'Injury(Cut or crushed)' + Injury +';	'
+										+ 'Details of injury' +injuryDetails +';	'
+										+ 'Which body part' + bodyPart+';	'
+										+ 'Any reports available' +reportDetails +';	'
+										+ 'Any medications taken' + medicationDetails+';	'
+										+ 'RESPONSE	' + response ;
+				whatsappNotes.innerHTML = 'FROM 	'+'\n'
+        								+ 'Attender Name: '+attender+'\n'
+        								+ 'Relation: '+relation+'\n'
+        								+ 'Mobile Number: '+mobileNumber+'\n'
+        								+ 'Alternate Number: '+alternateNumber+'\n'
+        								+ 'Profession: '+profession+'\n'
+        								+ 'Earning memebers in the family: '+earningMember+'\n'
+        								+ 'Patient Name: '+patientName+'\n'
+        								+ 'Age: '+age+'\n'
+        								+ 'Gender: '+gender+'\n'
+        								+ 'Address: '+address+'\n'
+						    		 	+ 'INFORMATION' + '\n'
+										+ 'Emergency or Not?' + emergency +'\n'
+										+ 'If not emergency, how many days since accident	'+ notEmergency+'\n'
+										+ 'Injury(Cut or crushed)' + Injury +'\n'
+										+ 'Details of injury' +injuryDetails +'\n'
+										+ 'Which body part' + bodyPart+'\n'
+										+ 'Any reports available' +reportDetails +'\n'
+										+ 'Any medications taken' + medicationDetails+'\n'
+										+ 'RESPONSE'+'\n' + response ;									
+
+			};        								
+			function update() {
+				Notes()
+			};
+			function copyNotes() {
+				let callNotes = document.getElementById('callNotes');
+				callNotes.select();
+				document.execCommand('copy');
+				document.getElementById('callNotes').blur();
+			};
+			function copyWhatsappNotes() {
+				let whatsappNotes = document.getElementById('whatsappNotes');
+				whatsappNotes.select();
+				document.execCommand('copy');
+				document.getElementById('whatsappNotes').blur();
+			}
+        	document.addEventListener('DOMContentLoaded', Notes);	
+        </script>
+	</head>
+	<body>
+		<h3 align="center">Call notes for Trauma related queries</h3>
+		<div class="grid-container">
+			<strong>FROM</strong><br />	
+			<div class="grid-item"><label> Attender Name </label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="attender"></div>
+			<div class="grid-item"><label>	Relation </label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="relation"></div>
+			<div class="grid-item"><label> Mobile Number </label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="mobileNumber"></div>
+			<div class="grid-item"><label>	Alternate Number </label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="alternateNumber"></div> 
+			<div class="grid-item"><label>	Profession </label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="profession"></div>
+			<div class="grid-item"><label>	Earning memebers in the family	</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="earningMember"></div>
+		</div>
+		<em>     (The following details must reflect as found in the patient's Aadhar Card) </em> <br />
+		<div class="grid-container">		
+			<div class="grid-item"><label>	Patient Name: Name with surname(initperu)	</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="patientName"></div>
+			<div class="grid-item"><label>	Age(D/M/Y)	</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="age"></div>
+			<div class="grid-item"><label>	Gender(M/F)	</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="gender"></div>
+			<div class="grid-item"><label>	Address- Area/District/City</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="address"></div>
+		</div>		
+		<strong>INFORMATION</strong> <br />
+		<div class="grid-container">
+			<div class="grid-item"><label> Emergency or Not?</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="emergency"></div>
+			<div class="grid-item"><label> If not emergency, how many days since accident	</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="notEmergency"></div>
+			<div class="grid-item"><label>Injury(Cut or crushed)</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="Injury"></div>
+			<div class="grid-item"><label> Details of the Injury </label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="injuryDetails"></div>
+			<div class="grid-item"><label> Which body part?	</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="bodyPart"></div>
+			<div class="grid-item"><label> Details of any reports, if available.</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="reportDetails"></div>
+			<div class="grid-item"><label> Any medication related details?</label></div>
+			<div class="grid-item"><input onchange ="update()" type="text"   id="medicationDetails"></div>
+		</div>	
+		<strong>RESPONSE</strong><br />
+		<textarea id="response" style="margin: 10px;width:300px; height: 100px;" onchange ="update()">We will get back to you(patient) after the medical responds to us.</textarea><br /><br />			
+		<div align="center">
+			<strong>Whatsapp Notes</strong><br />
+			<textarea id="whatsappNotes"></textarea><br /> 
+			<button style="width:150px;height: 50px; margin: 10px;" onclick="copyWhatsappNotes()">Copy Notes for Whatsapp</button>
+		</div>
+		<div align="center">
+			<strong>Call Notes</strong><br />
+			<textarea id="callNotes"></textarea><br /> 
+			<button style="width:150px;height: 50px; margin: 10px;" onclick="copyNotes()">Copy Call Notes</button>
+		</div>
+		<br /> 
+		<div align="center">
+			<button onclick="window.location.href = './index.html';"><< Back to Homepage</button>
+		</div>
+
+	</body>
+</html>
