@@ -1,0 +1,100 @@
+html{
+  margin: auto;
+  font-family: sans-serif;
+  background-color: floralwhite;
+}
+
+
+body {
+  margin:  auto;
+  max-width: 1000px ;
+  background-color: white;
+}
+
+button {
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 15px; 
+  width: 100px; 
+  height: 40px;
+  border-width: 0.5px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 .1px 2px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+button:hover {background-color: lightgray;}
+
+button:active {
+  background-color: lightgrey;
+  box-shadow: 0 2px lightgrey;
+  transform: translateY(1.5px);
+}
+
+
+input, select {
+  height: 25px;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-row-gap: 7.5px;
+  grid-column-gap: 30px;
+}
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+.flex-container {
+  display: flex;
+  height: 820px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  border-radius: 10px;
+}
+
+.container {
+  border: 2px solid #dedede;
+  font-family: 'Courier New', monospace ;
+  font-size: 12px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 5px;
+}
+
+#info-form-box {
+  text-align: justify;
+  padding-right: 20px;
+  padding-left: 20px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scroll-behavior: auto;
+}
+
+#call-notes-box {
+  padding: 10px;
+}
+
+#callNotes{
+  width: 440px;
+  height: 210px;
+}  
+
+#call-log-box {
+  width: 420px ;
+  height: 370px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 10px 0;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
