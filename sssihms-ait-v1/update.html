@@ -25,6 +25,8 @@
             var information = '';
             var response = '';
             var resolution = '';
+
+            // window.confirm('If you exit now, data on this page would be deleted.'+'\n'+'Do you want to leave?');
             function createCallNotes() {
                 var callNotes = document.getElementById('callNotes');
                 let language = document.getElementById('language').value;
@@ -44,6 +46,7 @@
                 let information = document.getElementById('information').value;
                 let response = document.getElementById('response').value;
                 let resolution = document.getElementById('resolution').value;
+
                 if (language != '') {
                     callNotes.innerHTML += 'LANGUAGE: ' + language + ';    ';    
                 };
@@ -98,12 +101,14 @@
             function update(elementID, variable) {
                 variable = document.getElementById(elementID).value;
             };
+
             function copyNotes() {
                 let callNotes = document.getElementById('callNotes');
                 callNotes.select();
                 document.execCommand('copy');
                 document.getElementById('callNotes').blur();
             };
+
             function clearEntries() {
                 document.getElementById('language').value = '';
                 document.getElementById("FROM1").value = "none";
@@ -124,6 +129,7 @@
                 document.getElementById('resolution').value = '';
                 document.getElementById('callNotes').innerHTML= '';
             };
+
             function copyCacheNotes(notesID) {
                 var r = document.createRange();
                 r.selectNode(document.getElementById(notesID));
@@ -151,9 +157,13 @@
                 document.getElementById('call-log-box').innerHTML += newCall;
                 cacheVariable += 1; 
             };
+
             function clearHistory() {
-              document.getElementById('call-log-box').innerHTML = '';
-              cacheVariable = 0;  
+              var r = confirm("Do you want to clear Recent Call history?");
+              if (r == true) {
+                document.getElementById('call-log-box').innerHTML = '';
+                cacheVariable = 0;
+              };                
             };                 
         </script>   
 
@@ -232,7 +242,7 @@
                         <div class="grid-item">
                             <div class="autocomplete"><input id="department" onchange="update('department',department)" type="text" placeholder="Department"></div>
                             <script>
-                                var departments = ['Cardio', 'Neurosurgery', 'Neurology', 'OBG', 'ENT', 'Ortho', 'CTVS', 'Dental', 'Pediatrics', 'General', 'Medicine', 'General', 'Surgery'];
+                                var departments = ['Cardio', 'Neurosurgery', 'Neurology', 'OBG', 'ENT', 'Ortho', 'CTVS', 'Dental', 'Pediatrics', 'General Medicine', 'General Surgery', 'Opthamology'];
                                 autocomplete(document.getElementById('department'), departments);
                             </script>
                                 <!-- <option value="none" selected disabled>select</option>
@@ -255,7 +265,7 @@
                         </div>
                         <div class="grid-item"><label><strong>RESPONSE</strong></label></div>
                         <div class="grid-item">
-                            <textarea id="response" onchange="update('response', response)" style="width:340px;height: 70px ;" value= ''> </textarea>
+                            <textarea id="response" onchange="update('response', response)" style="width:340px;height: 70px ;" value= ''></textarea>
                         </div>
                         <div class="grid-item"><label><strong>RESOLUTION</strong></label></div>
                         <div class="grid-item">
@@ -301,5 +311,16 @@
             <br />
         </div>
     </body>
+    <footer>
+        <script type="text/javascript">
+            window.addEventListener('beforeunload', function (event) {
+                event.preventDefault();
+                event.returnValue = 'ok';
+                return "Are you sure you want leave?";
+            });
+
+
+        </script>
+    </footer>
 
 </html>
