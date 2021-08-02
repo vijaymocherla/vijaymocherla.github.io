@@ -26,7 +26,22 @@
                 let information = document.getElementById('information').value;
                 let response = document.getElementById('response').value;
                 let resolution = document.getElementById('resolution').value;
-                                       
+                callNotes.innerHTML = 'Language: ' + language + ';    '
+                                        +'FROM ' + FROM2 + ' ' + FROM1 + ';    '
+                                        +'Name of patient: ' + patientName + '; '
+                                        +'Age ' + age + '; '
+                                        +'Gender ' + gender + ';  '
+                                        +'Attendant Name: ' + attender + ';  '
+                                        +'Relation: ' + relation + ';    '
+                                        +'Hospital ID: ' + hospitalID + '; '
+                                        +'SHD ID: ' + SHDID + ';  '
+                                        +'Place: ' + place + ';   '
+                                        +'PHONE: ' + phoneNumber + ';   '
+                                        +'Email id: ' + emailID + ';    '
+                                        +'DEPARTMENT: ' + department + ';  '
+                                        +'INFORMATION: ' + information + ';    '
+                                        +'RESPONSE: ' + response + ';    '
+                                        +'RESOLUTION: '+ resolution;                         
             };                                      
             function update() {
                 Notes()
