@@ -16,7 +16,7 @@ button {
   cursor: pointer;
   margin: 15px; 
   width: 100px; 
-  height: 40px;
+  height: 35px;
   border-width: 0.5px;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 .1px 2px 0 rgba(0, 0, 0, 0.19);
 }
@@ -30,6 +30,15 @@ button:active {
   transform: translateY(1.5px);
 }
 
+#btn {
+  border-radius: 5px;
+}
+#btn:hover {background-color: lightgrey;
+  text-decoration: underline;}
+
+#btn:active {
+  text-decoration: none;
+}
 
 input, select {
   height: 27px;
@@ -71,7 +80,7 @@ select {
   border-radius: 5px;
   margin: 10px 0;
   padding: 5px;
-  min-height: 100px;
+  min-height: 105px;
 }
 
 #info-form-box {
@@ -92,6 +101,10 @@ select {
   height: 210px;
   resize: none;
   scrollbar-width: thin;
+  border-radius: 3px;
+  border: solid;
+  border-width: 1px;
+  border-color: lightgrey;
 }  
 
 #call-log-box {
