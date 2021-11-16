@@ -28,7 +28,7 @@ twitter_username: vijay_mocherla
 github_username:  vijaymocherla
 
 # Build settings
-theme: minima
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
 
