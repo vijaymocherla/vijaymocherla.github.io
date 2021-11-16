@@ -48,53 +48,66 @@
                 let response = document.getElementById('response').value;
                 let resolution = document.getElementById('resolution').value;
 
+                // <p><b>FROM:</b> Attender - New patient
+                // <br><b>PATIENT:</b>  / / / / / /
+                // <br><b>Ph.:</b>
+                // <br><b>Attender:</b>
+                // <font Color=Blue>
+                // <p><b>INFORMATION:</b> 
+                // <font Color=Black>
+                // <p><b>RESPONSE:</b> 
+                // Will fix gate entry appointment on 
+                // OR
+                // Assured link via SMS. SMS sent  SMS ID - .
+                // <p><font Color=DarkOrange>
+
                 if (language != '') {
-                    callNotes.innerHTML += 'LANGUAGE: ' + language + ';    ';    
+                    callNotes.innerHTML += '<b>LANGUAGE:</b> ' + language + ';  \n';    
                 };
                 if (FROM1 != "none" && FROM2 != "none") {
-                    callNotes.innerHTML += 'FROM: ' + FROM2 +"-" + FROM1 + ';  ';
+                    callNotes.innerHTML += '<b>FROM:</b> ' + FROM2 +"-" + FROM1 + ';  \n';
                 };
                 if (patientName.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'PATIENT NAME: ' + patientName + ';    ';
+                    callNotes.innerHTML += '<b>PATIENT NAME:</b> ' + patientName + ';  \n';
                 };
                 if (age.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'AGE: ' + age + ';    ';
+                    callNotes.innerHTML += '<b>AGE:</b> ' + age + ';  \n';
                 };
                 if (gender != "none") {
-                    callNotes.innerHTML += 'GENDER: ' + gender + '; ';
+                    callNotes.innerHTML += '<b>GENDER:</b> ' + gender + ';  \n';
                 };
                 if (attender.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'ATTENDANT NAME: ' + attender + ';   ';
+                    callNotes.innerHTML += '<b>ATTENDANT NAME:</b> ' + attender + ';  \n';
                 };
                 if (relation.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'RELATION: ' + relation + ';   ';
+                    callNotes.innerHTML += '<b>RELATION:</b> ' + relation + ';  \n';
                 };
                 if (hospitalID.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'HOSPITAL ID: ' + hospitalID + '; ';
+                    callNotes.innerHTML += '<b>HOSPITAL ID:</b> ' + hospitalID + ';  \n';
                 };
                 if (SHDID.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'SHDID: ' + SHDID + ';  ';
+                    callNotes.innerHTML += '<b>SHDID:</b> ' + SHDID + ';  \n';
                 };
                 if (place.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'PLACE: ' + place + ';  ';
+                    callNotes.innerHTML += '<b>PLACE:</b> ' + place + ';  \n';
                 };
                 if (phoneNumber.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'PHONE: ' + phoneNumber + ';    ';
+                    callNotes.innerHTML += '<b>PHONE:</b> ' + phoneNumber + ';  \n';
                 };
                 if (emailID.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'EMAIL ID: ' + emailID + ';    ';
+                    callNotes.innerHTML += '<b>EMAIL ID:</b> ' + emailID + ';  \n';
                 };
                 if (department.localeCompare('') != 0) {
-                    callNotes.innerHTML += 'DEPARTMENT: ' + department + '; ';
+                    callNotes.innerHTML += '<b>DEPARTMENT:</b> ' + department + ';  \n';
                 };
                 if (information != '') {
-                    callNotes.innerHTML += 'INFORMATION: ' + information + ';    ';
+                    callNotes.innerHTML += '<b><font Color=Blue>INFORMATION:</b> ' + information + ';  \n';
                 };
                 if (response != '') {
-                    callNotes.innerHTML += 'RESPONSE: ' + response + ';   ';
+                    callNotes.innerHTML += '<b>RESPONSE:</b> ' + response + ';  \n';
                 };
                 if (resolution != '') {
-                    callNotes.innerHTML += 'RESOLUTION: ' + resolution + '; ';
+                    callNotes.innerHTML += '<p><b><font Color=DarkOrange>RESOLUTION:</b></p> ' + resolution + ';<br>';
                 };
 
             };
@@ -139,7 +152,6 @@
                 document.execCommand('copy');
                 window.getSelection().removeAllRanges();
             };
-
             function cacheNotes() {
                 let callNotes = document.getElementById('callNotes').innerHTML;
                 var date = new Date();
