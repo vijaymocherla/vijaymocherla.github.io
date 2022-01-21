@@ -1,2 +1,2 @@
 # vijaymocherla.github.io
-This is my personal website designed in bootstrap and then deployed using Jekyll.
+This is my personal website designed using bootstrap, css, html and deployed using Jekyll.
