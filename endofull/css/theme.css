@@ -1,0 +1,9 @@
+/*-- scss:defaults --*/
+
+.reveal .slides > section > section { 
+  text-align:right; 
+}
+.reveal .slide-logo {
+  max-height: 3.5rem;
+}
+Footer

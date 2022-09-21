@@ -1,0 +1,124 @@
+---
+title: "Attosecond dynamics in endohedral fullerenes"
+author: "Sai Vijay Mocherla"
+institute: "Center for Interdisciplinary Sciences, TIFR-H"
+date: today
+format: 
+  revealjs:
+    slide-number: c/t
+    width: 1920
+    height: 1080
+    chalkboard: True
+    logo: "images/tifr_logo.png"
+    theme: simple 
+    footer: "[Moldis-Group](https://moldis-group.github.io/)"
+    css: "css/theme.css" 
+editor: source
+---
+
+## Motivation
+<script src="plugin/math/math.js"></script>
+<script>
+  Reveal.initialize({ plugins: [ RevealMath.KaTeX ] });
+</script>
+
+> Symmetry appears to be fundamental to our preception of the physical world and it also plays a major role in our attempt to explain everything about it.
+>
+> -- <cite> Sir Harry Kroto, Chemistry Nobel Lecture 1996
+
+::: {style="text-align: center;"}
+![](images/nobel_fullerene.png){height="700px"}
+:::
+
+::: aside
+
+:::
+
+## Endohedral fullerenes
+
+
+::: columns
+
+::: {.column width="70%"}
+- What is the interplay between symmetry and correlation?
+  + As function of symmetry how would the HHG spectra change?
+- Can we learn anything new from ultrafast experiments?
+- Endofullerenes of He, H$^{-}$, Li$^{+}$ semi-magic numbers ^[we need fullerenes with inversion center]:
+  + $C_{20}-I_{h}$
+  + $C_{36}-D_{6h}$
+  + $C_{36}-D_{3h}$
+  + $C_{60}-I_{h}$
+
+:::
+
+::: {.column width="30%"}
+![](images/atlas_of_fullerenes.png){height="100%"}
+:::
+
+:::
+
+::: aside
+
+:::
+
+## Time-dependent configuration interaction (TDCI)
+- An arbitrary N-electronic wave function can be expressed exactly as a linear combination of all possible Slater determinants formed from a complete set of spin orbitals $\{\chi_{i}(r)\}$. ^[Sherrill, C. D. (1995). An introduction to configuration interaction theory. School of Chemistry and Biochemistry, Georgia Institute of Technology.]
+
+- The configuration interaction wavefunction looks like this ^[Szabo, A., & Ostlund, N. S. (2012). Modern quantum chemistry: introduction to advanced electronic structure theory. Courier Corporation.]
+:
+    $$
+    \begin{equation*}
+    |\Phi\rangle= c_{\text{HF}}\left|\Psi_{\text{HF}}\right\rangle+\sum_{r a} c_{a}^{r}\left|\Psi_{a}^{r}\right\rangle+\sum_{a<b, r<s} c_{a b}^{r s}\left|\Psi_{a b}^{r s}\right\rangle+\sum_{r<s<t, a<b<c} c_{a b c}^{r s t}\left|\Psi_{a b c}^{r s t}\right\rangle+\ldots
+    \end{equation*}
+    $$
+
+- Pure many-body electron dynamics can be described by solving the time-dependent Schr&ouml;dinger equation (TDSE) numerically in terms of the CI wavefunction ^[Klamroth, T. (2003). Laser-driven electron transfer through metal-insulator-metal contacts: Time-dependent configuration interaction singles calculations for a jellium model. Physical Review B, 68(24), 245421.] $^{,}$ ^[Krause, P., Klamroth, T., & Saalfrank, P. (2005). Time-dependent configuration-interaction calculations of laser-pulse-driven many-electron dynamics: Controlled dipole switching in lithium cyanide. The Journal of chemical physics, 123(7), 074105.].  
+    $$
+       i\hbar \ \frac{\partial|\Phi\rangle}{\partial t} = \hat{H} |\Phi\rangle 
+    $$
+
+::: aside
+
+:::
+
+## HHG
+- HHG in bare Helium atom usin AQZ-ARO8g basissets with heuristic lifetime models.
+- Pulse parameters: 
+  + Wavelength : 800nm 
+  + FWHM: 26.7fs
+  + Intensity: 10$^{14}$ W/cm$^{2}$ 
+
+::: coloumns
+
+:::{.column width="70%"}
+![](images/HHG.png){height="100%"}
+:::
+
+::: {.column width="30%"}
+![](images/pulse.png){height="100%"}
+
+:::
+:::
+## Changes to Workflow
+- Modification to existing workflow in Fortran : `(12-24 hours of coding)`
+  + Integral input using hdf5 format
+  + CISD using exact closed form expressions
+  + Lifetime models for HHG 
+
+- Alternative: Use PSI4 plugin feature ^[PSI4 plugins : [https://psicode.org/psi4manual/master/plugins.html](https://psicode.org/psi4manual/master/plugins.html)].  `(2-3 days fulltime coding)`
+  + ```
+    >>> psi4 --plugin-name myplugin
+    ```
+  + Automatically wraps existing C,C++ and Fortran code with CMake 
+  + Clean python interface with `pybind11`
+  + Use already written python code for other features.
+
+::: aside
+
+:::
+
+
+## 
+::: {style="text-align: center;"}
+![](images/end_slide.png){height="1080px"}
+:::
