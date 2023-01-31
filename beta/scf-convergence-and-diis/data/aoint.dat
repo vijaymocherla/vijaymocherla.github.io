@@ -1,0 +1,9 @@
+  Threads set to 2 by Python driver.
+   => Loading Basis Set <=
+
+    Name: CC-PVTZ
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1   entry O          line   262 file /home/dwave/software/psi4/objdir/stage/share/psi4/basis/cc-pvtz.gbs 
+    atoms 2-3 entry H          line    23 file /home/dwave/software/psi4/objdir/stage/share/psi4/basis/cc-pvtz.gbs 
+
