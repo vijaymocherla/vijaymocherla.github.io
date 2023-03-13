@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sai Vijay Mocherla">
+<meta name="dcterms.date" content="2023-01-12">
+
+<title>Accelerating SCF with DIIS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="scf-convergence-and-diis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="scf-convergence-and-diis_files/libs/quarto-html/quarto.js"></script>
+<script src="scf-convergence-and-diis_files/libs/quarto-html/popper.min.js"></script>
+<script src="scf-convergence-and-diis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="scf-convergence-and-diis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="scf-convergence-and-diis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="scf-convergence-and-diis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="scf-convergence-and-diis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="scf-convergence-and-diis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="scf-convergence-and-diis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Accelerating SCF with DIIS</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">quantum-chemistry</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sai Vijay Mocherla </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 12, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<center>
+<img src="../slides/0001.jpg" alt="slide 1" width="800" height="600">
+<center>
+<p>In this, notebook we learn : - How to apply the <strong>SCF</strong>(<em>self-consistent field</em>) method to obtain a ground state energy for a closed-shell system using Restricted Hartree-Fock formalism. - How to acclerate <strong>SCF</strong> using an extrapolation method called <strong>DIIS</strong>(<em>Direct Inversion of the Iterative Subspace</em>).</p>
+<center>
+<img src="../slides/0002.jpg" alt="slide 2" width="800" height="600">
+<center>
+<center>
+<img src="../slides/0003.jpg" alt="slide 3" width="800" height="600">
+<center>
+<center>
+<img src="../slides/0004.jpg" alt="slide 4" width="800" height="600">
+<center>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting the Paraphernelia</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating AO integrals and storing them as .npz files</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python ..<span class="op">/</span>code<span class="op">/</span>aoint.py sto<span class="op">-</span><span class="dv">3</span><span class="er">g</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Memory set to 953.674 MiB by Python driver.
+
+Size of the ERI tensor will be 0.00 GB.</code></pre>
+</div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.load(<span class="st">'../data/h2o_oeints.npz'</span>)[<span class="st">'overlap'</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.load(<span class="st">'../data/h2o_oeints.npz'</span>)[<span class="st">'kinetic'</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> np.load(<span class="st">'../data/h2o_oeints.npz'</span>)[<span class="st">'potential'</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> np.load(<span class="st">'../data/h2o_erints.npz'</span>)[<span class="st">'erints'</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>H_core <span class="op">=</span> T <span class="op">+</span> V</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="../slides/0005.jpg" alt="slide 5" width="800" height="600">
+<center>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==&gt; Inspecting S for AO orthonormality &lt;==</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hope <span class="op">=</span> np.allclose(S, np.eye(S.shape[<span class="dv">0</span>]))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Do we have any hope that our AO basis is orthonormal? </span><span class="sc">%s</span><span class="st">!'</span> <span class="op">%</span> (hope))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Do we have any hope that our AO basis is orthonormal? False!</code></pre>
+</div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagonalise the Overlap matrix</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>svals, svecs <span class="op">=</span> np.linalg.eigh(S)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the inverse square root</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linalg.inv(np.diag(np.sqrt(svals)))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the eigen vector back transform from eigen basis to previous basis.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.einsum(<span class="st">'aI,IJ,Jb'</span>, svecs, X, svecs.T)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Orthonormalising S</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>S_p <span class="op">=</span> np.einsum(<span class="st">'ij,jk,kl-&gt;il'</span>, X.T, S, X)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking if orthonormalised</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>orthonormalised <span class="op">=</span> np.allclose(S_p, np.eye(S.shape[<span class="dv">0</span>]), atol<span class="op">=</span><span class="fl">1e-08</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> orthonormalised:</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"There is a chance for diagonalisation"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"There's something wrong with the transformation."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>There is a chance for diagonalisation</code></pre>
+</div>
+</div>
+<center>
+<img src="../slides/0006.jpg" alt="slide 6" width="800" height="600">
+<center>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming the Fock matrix</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>F_p <span class="op">=</span> np.einsum(<span class="st">'ij,jk,kl-&gt;il'</span>, X.T, H_core, X)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagonalising the Fock matrix eigenvalues and eigenvectors</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>e, C_p <span class="op">=</span> np.linalg.eigh(F_p)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform C_p back into AO basis</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> np.dot(X, C_p)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># slicing out occupied orbitals</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>ndocc <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>C_occ <span class="op">=</span> C[:, :ndocc]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Building density matrix from C_occ</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.einsum(<span class="st">'pi,qi-&gt;pq'</span>, C_occ, C_occ, optimize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-code_folding="[]" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==&gt; SCF Iterations &lt;==</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Maximum SCF iterations</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>MAXITER <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Energy convergence criterion</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>E_conv <span class="op">=</span> <span class="fl">1.0e-10</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>D_conv <span class="op">=</span> <span class="fl">1.0e-8</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-iteration energy declarations</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>SCF_E <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>E_old <span class="op">=</span> <span class="fl">0.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-code_folding="[2]" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'==&gt; Starting SCF Iterations &lt;==</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Begin Iterations</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scf_iter <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, MAXITER <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build Fock matrix</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    J <span class="op">=</span> np.einsum(<span class="st">'pqrs,rs-&gt;pq'</span>, I, D, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> np.einsum(<span class="st">'prqs,rs-&gt;pq'</span>, I, D, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> H_core <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>J <span class="op">-</span> K</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute RHF energy</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    SCF_E <span class="op">=</span> np.einsum(<span class="st">'pq,pq-&gt;'</span>, (H_core <span class="op">+</span> F), D, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'SCF Iteration </span><span class="sc">%3d</span><span class="st">: Energy = </span><span class="sc">%4.16f</span><span class="st"> dE = </span><span class="sc">% 1.5E</span><span class="st">'</span> <span class="op">%</span> (scf_iter, SCF_E, SCF_E <span class="op">-</span> E_old))   </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SCF Converged?</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">abs</span>(SCF_E <span class="op">-</span> E_old) <span class="op">&lt;</span> E_conv):</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    E_old <span class="op">=</span> SCF_E    </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute new orbital guess</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    F_p <span class="op">=</span>  np.einsum(<span class="st">'ij,jk,kl-&gt;il'</span>, X, F, X)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    e, C_p <span class="op">=</span> np.linalg.eig(F_p)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> np.dot(X, C_p)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    C_occ <span class="op">=</span> C[:, :ndocc]</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.einsum(<span class="st">'pi,qi-&gt;pq'</span>, C_occ, C_occ, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MAXITER exceeded?</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (scf_iter <span class="op">==</span> MAXITER):</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Maximum number of SCF iterations exceeded."</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Post iterations</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">SCF converged.'</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Final RHF Energy: </span><span class="sc">%.8f</span><span class="st"> [Eh]'</span> <span class="op">%</span> (SCF_E))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>==&gt; Starting SCF Iterations &lt;==
+
+SCF Iteration   1: Energy = -81.2881629233857979 dE = -8.12882E+01
+SCF Iteration   2: Energy = -80.7620614193841675 dE =  5.26102E-01
+SCF Iteration   3: Energy = -80.4876942697945026 dE =  2.74367E-01
+SCF Iteration   4: Energy = -80.4657917548717592 dE =  2.19025E-02
+SCF Iteration   5: Energy = -80.4616027349987775 dE =  4.18902E-03
+SCF Iteration   6: Energy = -80.4606338529288507 dE =  9.68882E-04
+SCF Iteration   7: Energy = -80.4604211214459184 dE =  2.12731E-04
+SCF Iteration   8: Energy = -80.4603728090642534 dE =  4.83124E-05
+SCF Iteration   9: Energy = -80.4603619905947767 dE =  1.08185E-05
+SCF Iteration  10: Energy = -80.4603595507151681 dE =  2.43988E-06
+SCF Iteration  11: Energy = -80.4603590022545205 dE =  5.48461E-07
+SCF Iteration  12: Energy = -80.4603588787711175 dE =  1.23483E-07
+SCF Iteration  13: Energy = -80.4603588509901186 dE =  2.77810E-08
+SCF Iteration  14: Energy = -80.4603588447377547 dE =  6.25236E-09
+SCF Iteration  15: Energy = -80.4603588433308659 dE =  1.40689E-09
+SCF Iteration  16: Energy = -80.4603588430142764 dE =  3.16589E-10
+SCF Iteration  17: Energy = -80.4603588429430090 dE =  7.12674E-11
+
+SCF converged.
+Final RHF Energy: -80.46035884 [Eh]</code></pre>
+</div>
+</div>
+<section id="lets-try-for-a-slightly-larger-basis" class="level2">
+<h2 class="anchored" data-anchor-id="lets-try-for-a-slightly-larger-basis">Let’s try for a slightly larger basis</h2>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating AO integrals for cc-pvtz</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python ..<span class="op">/</span>code<span class="op">/</span>aoint.py cc<span class="op">-</span>pvtz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Memory set to 953.674 MiB by Python driver.
+
+Size of the ERI tensor will be 0.09 GB.</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.load(<span class="st">'../data/h2o_oeints.npz'</span>)[<span class="st">'overlap'</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.load(<span class="st">'../data/h2o_oeints.npz'</span>)[<span class="st">'kinetic'</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> np.load(<span class="st">'../data/h2o_oeints.npz'</span>)[<span class="st">'potential'</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> np.load(<span class="st">'../data/h2o_erints.npz'</span>)[<span class="st">'erints'</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>H_core <span class="op">=</span> T <span class="op">+</span> V</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running scf code the same as above</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python ..<span class="op">/</span>code<span class="op">/</span>scf.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Do we have any hope that our AO basis is orthonormal? False!
+There is a chance for diagonalisation
+==&gt; Starting SCF Iterations &lt;==
+
+SCF Iteration   1: Energy = -69.1347968401195203 dE = -6.91348E+01
+SCF Iteration   2: Energy = -73.8555083348786212 dE = -4.72071E+00
+SCF Iteration   3: Energy = -78.9567919922574930 dE = -5.10128E+00
+SCF Iteration   4: Energy = -77.5705309079189647 dE =  1.38626E+00
+SCF Iteration   5: Energy = -80.4078732350268410 dE = -2.83734E+00
+SCF Iteration   6: Energy = -78.5636142545179439 dE =  1.84426E+00
+SCF Iteration   7: Energy = -80.8401891040232670 dE = -2.27657E+00
+SCF Iteration   8: Energy = -78.9968790717921650 dE =  1.84331E+00
+SCF Iteration   9: Energy = -81.0445277765533660 dE = -2.04765E+00
+SCF Iteration  10: Energy = -79.2502300566142992 dE =  1.79430E+00
+SCF Iteration  11: Energy = -81.1702581595921941 dE = -1.92003E+00
+SCF Iteration  12: Energy = -79.4207412202195684 dE =  1.74952E+00
+SCF Iteration  13: Energy = -81.2574417841521779 dE = -1.83670E+00
+SCF Iteration  14: Energy = -80.6382468146913993 dE =  6.19195E-01
+SCF Iteration  15: Energy = -81.8060592445228565 dE = -1.16781E+00
+SCF Iteration  16: Energy = -81.0375710019176410 dE =  7.68488E-01
+SCF Iteration  17: Energy = -82.0323551720707087 dE = -9.94784E-01
+SCF Iteration  18: Energy = -81.2104173916206662 dE =  8.21938E-01
+SCF Iteration  19: Energy = -82.1328210092766255 dE = -9.22404E-01
+SCF Iteration  20: Energy = -82.5674752866804624 dE = -4.34654E-01
+SCF Iteration  21: Energy = -83.1491071642107187 dE = -5.81632E-01
+SCF Iteration  22: Energy = -83.4617045573220651 dE = -3.12597E-01
+SCF Iteration  23: Energy = -83.7115925113282628 dE = -2.49888E-01
+SCF Iteration  24: Energy = -83.8462016480608270 dE = -1.34609E-01
+SCF Iteration  25: Energy = -83.9288413708520835 dE = -8.26397E-02
+SCF Iteration  26: Energy = -83.9716034037429750 dE = -4.27620E-02
+SCF Iteration  27: Energy = -83.9951748874826905 dE = -2.35715E-02
+SCF Iteration  28: Energy = -84.0072057347110501 dE = -1.20308E-02
+SCF Iteration  29: Energy = -84.0135682844026519 dE = -6.36255E-03
+SCF Iteration  30: Energy = -84.0168148188785722 dE = -3.24653E-03
+SCF Iteration  31: Energy = -84.0185045683967644 dE = -1.68975E-03
+SCF Iteration  32: Energy = -84.0193690014646108 dE = -8.64433E-04
+SCF Iteration  33: Energy = -84.0198159980625974 dE = -4.46997E-04
+SCF Iteration  34: Energy = -84.0200451724136883 dE = -2.29174E-04
+SCF Iteration  35: Energy = -84.0201633394359817 dE = -1.18167E-04
+SCF Iteration  36: Energy = -84.0202240070863695 dE = -6.06677E-05
+SCF Iteration  37: Energy = -84.0202552468108337 dE = -3.12397E-05
+SCF Iteration  38: Energy = -84.0202712979690887 dE = -1.60512E-05
+SCF Iteration  39: Energy = -84.0202795578515378 dE = -8.25988E-06
+SCF Iteration  40: Energy = -84.0202838036089048 dE = -4.24576E-06
+SCF Iteration  41: Energy = -84.0202859877546189 dE = -2.18415E-06
+SCF Iteration  42: Energy = -84.0202871107002238 dE = -1.12295E-06
+SCF Iteration  43: Energy = -84.0202876882823375 dE = -5.77582E-07
+SCF Iteration  44: Energy = -84.0202879852716933 dE = -2.96989E-07
+SCF Iteration  45: Energy = -84.0202881380138535 dE = -1.52742E-07
+SCF Iteration  46: Energy = -84.0202882165577876 dE = -7.85439E-08
+SCF Iteration  47: Energy = -84.0202882569512468 dE = -4.03935E-08
+SCF Iteration  48: Energy = -84.0202882777232389 dE = -2.07720E-08
+SCF Iteration  49: Energy = -84.0202882884055100 dE = -1.06823E-08
+SCF Iteration  50: Energy = -84.0202882938989717 dE = -5.49346E-09
+Traceback (most recent call last):
+  File "../code/scf.py", line 79, in &lt;module&gt;
+    raise Exception("Maximum number of SCF iterations exceeded.")
+Exception: Maximum number of SCF iterations exceeded.</code></pre>
+</div>
+</div>
+<section id="can-we-accelerate-the-scf-cycles" class="level3">
+<h3 class="anchored" data-anchor-id="can-we-accelerate-the-scf-cycles">Can we accelerate the SCF cycles?</h3>
+<center>
+<img src="../slides/0007.jpg" alt="slide 7" width="800" height="600">
+<center>
+<center>
+<img src="../slides/0008.jpg" alt="slide 8" width="800" height="600">
+<center>
+<center>
+<img src="../slides/0009.jpg" alt="slide 9" width="800" height="600">
+<center>
+<center>
+<img src="../slides/0010.jpg" alt="slide 10" width="800" height="600">
+<center>
+<center>
+<img src="../slides/0011.jpg" alt="slide 11" width="800" height="600">
+<center>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==&gt; SCF Iterations &lt;==</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Maximum SCF iterations</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>MAXITER <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Energy convergence criterion</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>E_conv <span class="op">=</span> <span class="fl">1.0e-10</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>D_conv <span class="op">=</span> <span class="fl">1.0e-8</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-iteration energy declarations</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>SCF_E <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>E_old <span class="op">=</span> <span class="fl">0.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagonalise the Overlap matrix</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>svals, svecs <span class="op">=</span> np.linalg.eigh(S)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the inverse square root</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linalg.inv(np.diag(np.sqrt(svals)))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the eigen vector back transform from eigen basis to previous basis.</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.einsum(<span class="st">'aI,IJ,Jb'</span>, svecs, X, svecs.T)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Orthonormalising S</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>S_p <span class="op">=</span> np.einsum(<span class="st">'ij,jk,kl-&gt;il'</span>, X.T, S, X)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking if orthonormalised</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>orthonormalised <span class="op">=</span> np.allclose(S_p, np.eye(S.shape[<span class="dv">0</span>]), atol<span class="op">=</span><span class="fl">1e-08</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> orthonormalised:</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"There is a chance for diagonalisation"</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"There's something wrong with the transformation."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>There is a chance for diagonalisation</code></pre>
+</div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start from fresh orbitals</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>F_p <span class="op">=</span>  np.dot(np.dot(X,H_core),X)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>e, C_p <span class="op">=</span> np.linalg.eigh(F_p)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> np.dot(X,C_p)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>C_occ <span class="op">=</span> C[:, :ndocc]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.einsum(<span class="st">'pi,qi-&gt;pq'</span>, C_occ, C_occ, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Trial &amp; Residual Vector Lists</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>diis_iter <span class="op">=</span> MAXITER <span class="co"># int(N) if you want to switch of DIIS after 'N' scf cycles </span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>F_list <span class="op">=</span> []</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>DIIS_RESID <span class="op">=</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-code_folding="[21,25]" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==&gt; SCF Iterations w/ DIIS &lt;==</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'==&gt; Starting SCF Iterations &lt;==</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Begin Iterations</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scf_iter <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, MAXITER <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build Fock matrix</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    J <span class="op">=</span> np.einsum(<span class="st">'pqrs,rs-&gt;pq'</span>, I, D, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> np.einsum(<span class="st">'prqs,rs-&gt;pq'</span>, I, D, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> H_core <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>J <span class="op">-</span> K</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> scf_iter <span class="op">&lt;=</span> diis_iter:</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">#print('DIIS is ON \n')</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        diis_bool <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Build DIIS Residual</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        diis_r <span class="op">=</span> X.dot(F.dot(D).dot(S) <span class="op">-</span> S.dot(D).dot(F)).dot(X)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append trial &amp; residual vectors to lists</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>        F_list.append(F)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        DIIS_RESID.append(diis_r)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">#print('DIIS is OFF \n')</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        diis_bool <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute RHF energy</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    SCF_E <span class="op">=</span> np.einsum(<span class="st">'pq,pq-&gt;'</span>, (H_core <span class="op">+</span> F), D, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    dE <span class="op">=</span> SCF_E <span class="op">-</span> E_old</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    dRMS <span class="op">=</span> np.mean(diis_r<span class="op">**</span><span class="dv">2</span>)<span class="op">**</span><span class="fl">0.5</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> diis_bool:</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        diis_str <span class="op">=</span> <span class="st">'   DIIS is ON'</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>        diis_str <span class="op">=</span> <span class="st">'   DIIS is OFF'</span>    </span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>((<span class="st">'SCF Iteration </span><span class="sc">%3d</span><span class="st">: Energy = </span><span class="sc">%4.16f</span><span class="st"> dE = </span><span class="sc">% 1.5E</span><span class="st"> dRMS = </span><span class="sc">%1.5E</span><span class="st">'</span> <span class="op">%</span> (scf_iter, SCF_E, dE, dRMS)) <span class="op">+</span> diis_str )</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SCF Converged?</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">abs</span>(dE) <span class="op">&lt;</span> E_conv):</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    E_old <span class="op">=</span> SCF_E</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> scf_iter <span class="op">&gt;=</span> <span class="dv">2</span>:</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Build B matrix</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>        B_dim <span class="op">=</span> <span class="bu">len</span>(F_list) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>        B <span class="op">=</span> np.empty((B_dim, B_dim))</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>        B[<span class="op">-</span><span class="dv">1</span>, :] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>        B[:, <span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>        B[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(F_list)):</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(F_list)):</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>                B[i, j] <span class="op">=</span> np.einsum(<span class="st">'ij,ij-&gt;'</span>, DIIS_RESID[i], DIIS_RESID[j], optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Build RHS of Pulay equation </span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>        rhs <span class="op">=</span> np.zeros((B_dim))</span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>        rhs[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Solve Pulay equation for c_i's with NumPy</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>        coeff <span class="op">=</span> np.linalg.solve(B, rhs)</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Build DIIS Fock matrix</span></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>        F <span class="op">=</span> np.zeros_like(F)</span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(coeff.shape[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>            F <span class="op">+=</span> coeff[x] <span class="op">*</span> F_list[x]</span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute new orbital guess with DIIS Fock matrix</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>    F_p <span class="op">=</span>  X.dot(F).dot(X)</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>    e, C_p <span class="op">=</span> np.linalg.eigh(F_p)</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> X.dot(C_p)</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>    C_occ <span class="op">=</span> C[:, :ndocc]</span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.einsum(<span class="st">'pi,qi-&gt;pq'</span>, C_occ, C_occ, optimize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MAXITER exceeded?</span></span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (scf_iter <span class="op">==</span> MAXITER):</span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Maximum number of SCF iterations exceeded."</span>)</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Post iterations</span></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">SCF converged.'</span>)</span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Final RHF Energy: </span><span class="sc">%.8f</span><span class="st"> [Eh]'</span> <span class="op">%</span> SCF_E)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>==&gt; Starting SCF Iterations &lt;==
+
+SCF Iteration   1: Energy = -69.1347968401194919 dE = -6.91348E+01 dRMS = 1.33446E-01   DIIS is ON
+SCF Iteration   2: Energy = -73.8555083348785502 dE = -4.72071E+00 dRMS = 5.03754E-02   DIIS is ON
+SCF Iteration   3: Energy = -80.9851657019508906 dE = -7.12966E+00 dRMS = 5.41654E-02   DIIS is ON
+SCF Iteration   4: Energy = -83.3476769740025816 dE = -2.36251E+00 dRMS = 2.29219E-02   DIIS is ON
+SCF Iteration   5: Energy = -84.0071321201823480 dE = -6.59455E-01 dRMS = 2.42631E-03   DIIS is ON
+SCF Iteration   6: Energy = -84.0191685957183410 dE = -1.20365E-02 dRMS = 9.18560E-04   DIIS is ON
+SCF Iteration   7: Energy = -84.0201944120005066 dE = -1.02582E-03 dRMS = 1.80133E-04   DIIS is ON
+SCF Iteration   8: Energy = -84.0202825456275946 dE = -8.81336E-05 dRMS = 3.73431E-05   DIIS is ON
+SCF Iteration   9: Energy = -84.0202880247193207 dE = -5.47909E-06 dRMS = 7.08676E-06   DIIS is ON
+SCF Iteration  10: Energy = -84.0202882912433040 dE = -2.66524E-07 dRMS = 1.35952E-06   DIIS is ON
+SCF Iteration  11: Energy = -84.0202882993160500 dE = -8.07275E-09 dRMS = 4.20633E-07   DIIS is ON
+SCF Iteration  12: Energy = -84.0202882997008658 dE = -3.84816E-10 dRMS = 6.97036E-08   DIIS is ON
+SCF Iteration  13: Energy = -84.0202882997147356 dE = -1.38698E-11 dRMS = 1.02648E-08   DIIS is ON
+
+SCF converged.
+Final RHF Energy: -84.02028830 [Eh]</code></pre>
+</div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset of energies for H2O molecules computed using psi4 with different basis.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../data/energies_benchmark.csv'</span>, index_col<span class="op">=</span><span class="st">'basis'</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             nbf        scf        mp2       ccsd    ccsd(t)       pbe0  \
+basis                                                                     
+sto-3g         7 -82.944446 -82.993582 -83.015126 -83.015226 -83.243909   
+sto-6g         7 -83.659154 -83.708632 -83.730426 -83.730527 -83.963042   
+3-21g         13 -83.563679 -83.696978 -83.705981 -83.708087 -83.880180   
+6-31g         13 -83.954896 -84.097007 -84.104308 -84.105907 -84.283238   
+6-31g*        19 -83.977115 -84.177677 -84.187182 -84.189913 -84.302479   
+6-31+g*       23 -83.984260 -84.191978 -84.199963 -84.203457 -84.314272   
+cc-pvdz       24 -83.992162 -84.206491 -84.216072 -84.219958 -84.315199   
+cc-pvtz       58 -84.020288 -84.305513 -84.310393 -84.319489 -84.348190   
+cc-pvqz      115 -84.027569 -84.351165 -84.353690 -84.364479 -84.357060   
+aug-cc-pvdz   41 -84.005721 -84.240482 -84.247321 -84.253774 -84.335114   
+aug-cc-pvtz   92 -84.024000 -84.318366 -84.321684 -84.332038 -84.354125   
+aug-cc-pvqz  172 -84.028840 -84.356530 -84.357987 -84.369280 -84.359510   
+def2-sv(p)    18 -83.907364 -84.108361 -84.119167 -84.121896 -84.235178   
+def2-svp      24 -83.925270 -84.138846 -84.148504 -84.152310 -84.251446   
+
+                 b3lyp  
+basis                   
+sto-3g      -83.314658  
+sto-6g      -84.037073  
+3-21g       -83.963402  
+6-31g       -84.369483  
+6-31g*      -84.388000  
+6-31+g*     -84.401838  
+cc-pvdz     -84.399149  
+cc-pvtz     -84.435662  
+cc-pvqz     -84.445071  
+aug-cc-pvdz -84.421785  
+aug-cc-pvtz -84.442275  
+aug-cc-pvqz -84.447817  
+def2-sv(p)  -84.320335  
+def2-svp    -84.335787  </code></pre>
+</div>
+</div>
+<p><strong>References</strong> 1. A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em>, Introduction to Advanced Electronic Structure Theory. Courier Corporation, 1996. 2. I. N. Levine, <em>Quantum Chemistry</em>. Prentice-Hall, New Jersey, 5th edition, 2000. 3. P. Pulay. <em>Chem. Phys. Lett.</em> <strong>73</strong>, 393-398 (1980) 4. C. David Sherrill. <em>“<a href="vergil.chemistry.gatech.edu/notes/diis/diis.pdf">Some comments on accellerating convergence of iterative sequences using direct inversion of the iterative subspace (DIIS)</a>”.</em> (1998) 5. Smith, Daniel GA, et al.&nbsp;“Psi4NumPy: An interactive quantum chemistry programming environment for reference implementations and rapid development.” Journal of chemical theory and computation 14.7 (2018): 3504-3511.</p>
+<center>
+<img src="../slides/0012.jpg" alt="slide 12" width="800" height="600">
+<center>
+</center></center></center></center></center></center></center></center></center></center></center></center></section>
+</section>
+
+</center></center></center></center></center></center></center></center></center></center></center></center></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

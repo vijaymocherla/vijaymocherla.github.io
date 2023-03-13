@@ -55,3 +55,5 @@ gem "rexml", ">= 3.2.5"
 
 gem "github-pages" , group: :jekyll_plugins
 # If you have any plugins, put them here!
+
+gem "webrick", "~> 1.8"
