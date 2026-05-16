@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+// Latest 3 posts for the "Recent writing" section
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const recent = allPosts.slice(0, 3);
+---
+
+<BaseLayout
+  title="Home"
+  description="Sai Vijay Mocherla — physics graduate student at TIFR Hyderabad working on gas–surface scattering dynamics."
+>
+  <!-- ============ Hero ============ -->
+  <section class="hero container-wide">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="kicker mono">Graduate student · TIFR Hyderabad</p>
+        <h1>Sai Vijay Mocherla</h1>
+        <p class="lead">
+          I study how gas-phase atoms scatter from metal surfaces — the energy exchange at
+          the heart of surface chemistry and catalysis. Earlier I worked on ultrafast
+          electron dynamics and mesoscopic transport.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/research/">Research</a>
+          <a class="btn" href="/blog/">Blog</a>
+          <a class="btn" href="/docs/vijay_cv.pdf" target="_blank" rel="noopener">CV →</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="/img/vijay_cc1.webp" alt="Sai Vijay Mocherla" width="220" height="220" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ About ============ -->
+  <section class="container">
+    <h2>About</h2>
+    <p>
+      I am a research student broadly interested in the dynamics of gas–surface interactions,
+      ultrafast electron dynamics, and quantum many-body problems at the intersection of
+      chemical physics and AMO physics.
+    </p>
+    <p>
+      Currently, I am a graduate student working with Prof. Pranav R. Shirhatti in the
+      <a href="https://www.tifrh.res.in/~pranavrs/" target="_blank" rel="noopener">Surface Dynamics Group</a>
+      at the
+      <a href="https://www.tifrh.res.in/" target="_blank" rel="noopener">Tata Institute of Fundamental Research — Hyderabad</a>.
+      My thesis work focuses on the inelastic scattering of noble gases (Kr, Ar, Xe) from Au(111).
+    </p>
+  </section>
+
+  <!-- ============ Education ============ -->
+  <section class="container">
+    <h2>Education</h2>
+    <ul class="timeline">
+      <li>
+        <div class="t-when mono">2024 — present</div>
+        <div class="t-body">
+          <strong>Ph.D. in Physics</strong> · TIFR Hyderabad<br />
+          <span class="muted">Surface Dynamics Group, advisor: Prof. Pranav R. Shirhatti</span>
+        </div>
+      </li>
+      <li>
+        <div class="t-when mono">2020</div>
+        <div class="t-body">
+          <strong>M.S. in Chemistry</strong> · University of Rochester
+        </div>
+      </li>
+      <li>
+        <div class="t-when mono">2019</div>
+        <div class="t-body">
+          <strong>M.Sc. in Chemistry</strong> · Sri Sathya Sai Institute of Higher Learning
+        </div>
+      </li>
+      <li>
+        <div class="t-when mono">2016</div>
+        <div class="t-body">
+          <strong>B.Sc. (Honors) in Chemistry</strong> · Sri Sathya Sai Institute of Higher Learning
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ Research experience (compact) ============ -->
+  <section class="container">
+    <h2>Research experience</h2>
+    <ul class="timeline">
+      <li>
+        <div class="t-when mono">Jan–Mar 2025</div>
+        <div class="t-body">
+          <strong>Visiting student</strong> · Max Planck Institute of Multidisciplinary Sciences, Göttingen<br />
+          <span class="muted">Plane-wave DFT and ML interatomic potentials for C-atom scattering on Au(111).</span>
+        </div>
+      </li>
+      <li>
+        <div class="t-when mono">2021 — 2023</div>
+        <div class="t-body">
+          <strong>Junior Research Fellow</strong> · TIFR Hyderabad, MolDis Group (Prof. R. Ramakrishnan)<br />
+          <span class="muted">TDCI for ultrafast electron dynamics; optimized Gaussian basis sets for HHG spectra.</span>
+        </div>
+      </li>
+    </ul>
+    <p class="muted">
+      See <a href="/research/">Research</a> for the full list of projects and writeups.
+    </p>
+  </section>
+
+  <!-- ============ Latest posts ============ -->
+  {recent.length > 0 && (
+    <section class="container">
+      <div class="row-head">
+        <h2>Recent writing</h2>
+        <a class="muted" href="/blog/">All posts →</a>
+      </div>
+      <ul class="post-list">
+        {recent.map((p) => (
+          <li>
+            <a class="post-link" href={`/blog/${p.slug}/`}>
+              <span class="post-title">{p.data.title}</span>
+              <span class="post-date mono"><FormattedDate date={p.data.date} /></span>
+            </a>
+            {p.data.description && <p class="post-desc muted">{p.data.description}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .hero { padding: 4rem 1.25rem 2.5rem; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .hero-text h1 { margin: 0.2rem 0 0.7rem; }
+  .kicker {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .lead {
+    font-size: 1.12rem;
+    color: var(--text-muted);
+    max-width: 56ch;
+    margin-bottom: 1.4rem;
+  }
+  .cta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all var(--transition);
+    background: var(--bg-elev);
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: white;
+  }
+  .hero-photo img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .timeline li:first-child { border-top: none; padding-top: 0; }
+  .t-when { color: var(--text-faint); font-size: 0.85rem; padding-top: 0.15rem; }
+
+  /* Post list */
+  .row-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .row-head a { font-size: 0.9rem; }
+  .post-list { list-style: none; padding: 0; margin: 0.5rem 0 0; display: grid; gap: 0.4rem; }
+  .post-list li { padding: 0.9rem 0; border-top: 1px solid var(--border); }
+  .post-link {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .post-link:hover .post-title { color: var(--accent); }
+  .post-title { font-weight: 600; }
+  .post-date { color: var(--text-faint); font-size: 0.85rem; white-space: nowrap; }
+  .post-desc { margin: 0.25rem 0 0; font-size: 0.95rem; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 2.5rem 1.25rem 1.5rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hero-photo { order: -1; }
+    .hero-photo img { width: 140px; height: 140px; }
+    .timeline li { grid-template-columns: 1fr; gap: 0.2rem; }
+    .t-when { padding-top: 0; }
+  }
+</style>

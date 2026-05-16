@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Not found">
+  <section class="container nf">
+    <p class="kicker mono">404</p>
+    <h1>Page not found</h1>
+    <p class="lead muted">
+      The page you were looking for does not exist (or moved when I rebuilt the site).
+    </p>
+    <p>
+      <a class="back" href="/">← Back home</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { padding: 6rem 1.25rem; text-align: center; }
+  .kicker {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .nf h1 { font-size: 2.6rem; margin: 0.4rem 0 0.6rem; }
+  .lead { font-size: 1.1rem; max-width: 50ch; margin: 0 auto 1.5rem; }
+  .back { font-family: var(--font-mono); }
+</style>

@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group by year
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const y = post.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, [] as any);
+  byYear.get(y)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+
+// All tags with counts
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const t of post.data.tags) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+const allTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Writing on physics, scientific computing, and short projects by Sai Vijay Mocherla."
+>
+  <article class="container blog-index">
+    <header class="page-head">
+      <p class="kicker mono">Blog</p>
+      <h1>Writing</h1>
+      <p class="lead">
+        Notes from research, scientific computing, and short side-projects.
+        Subscribe via <a href="/rss.xml">RSS</a>.
+      </p>
+    </header>
+
+    {allTags.length > 0 && (
+      <section class="tags-block">
+        <h2 class="section-mini">Tags</h2>
+        <div class="tag-cloud">
+          {allTags.map(([tag, n]) => (
+            <a class="tag" href={`/tags/${tag}/`}>
+              {tag} <span class="tag-count">{n}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {years.map((year) => (
+      <section class="year-block">
+        <h2 class="year-head">{year}</h2>
+        <ul class="post-list">
+          {byYear.get(year)!.map((post) => (
+            <li>
+              <a class="post-link" href={`/blog/${post.slug}/`}>
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-date mono"><FormattedDate date={post.data.date} /></span>
+              </a>
+              {post.data.description && <p class="post-desc muted">{post.data.description}</p>}
+              {post.data.tags.length > 0 && (
+                <div class="post-tags">
+                  {post.data.tags.map((t) => (
+                    <a class="tag" href={`/tags/${t}/`}>{t}</a>
+                  ))}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    {posts.length === 0 && (
+      <p class="muted">No posts yet — check back soon.</p>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-index { padding-top: 3rem; }
+  .page-head { margin-bottom: 2.2rem; }
+  .page-head h1 { margin: 0.2rem 0 0.6rem; }
+  .kicker {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .lead { font-size: 1.08rem; color: var(--text-muted); max-width: 64ch; }
+
+  .section-mini {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin: 0 0 0.6rem;
+    font-weight: 600;
+  }
+  .tags-block { margin-bottom: 2.5rem; }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag-count {
+    color: var(--text-faint);
+    font-size: 0.8em;
+    margin-left: 0.2em;
+  }
+
+  .year-block { margin-bottom: 2.5rem; }
+  .year-head {
+    font-size: 1rem;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    margin: 0 0 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.2rem; }
+  .post-list li {
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .post-list li:first-child { border-top: none; padding-top: 0.5rem; }
+  .post-link {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .post-link:hover .post-title { color: var(--accent); }
+  .post-title { font-weight: 600; font-size: 1.05rem; }
+  .post-date { color: var(--text-faint); font-size: 0.85rem; white-space: nowrap; }
+  .post-desc { margin: 0.35rem 0 0.5rem; font-size: 0.95rem; line-height: 1.55; }
+  .post-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+
+  @media (max-width: 540px) {
+    .post-link { flex-direction: column; gap: 0.2rem; }
+  }
+</style>

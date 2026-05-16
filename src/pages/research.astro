@@ -1,0 +1,260 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Research"
+  description="Research projects of Sai Vijay Mocherla — gas–surface scattering, machine-learning interatomic potentials, ultrafast electron dynamics, and quantum transport."
+>
+  <article class="container research">
+    <header class="page-head">
+      <p class="kicker mono">Research</p>
+      <h1>Projects &amp; publications</h1>
+      <p class="lead">
+        My work sits at the intersection of chemical physics and AMO physics, with a
+        current focus on gas–surface scattering dynamics. Earlier projects spanned
+        ultrafast electron dynamics, mesoscopic transport, and plasmonics. Projects below
+        are listed in reverse chronological order.
+      </p>
+      <blockquote>
+        <p>“With more knowledge comes a deeper, more wonderful mystery, luring one on to penetrate deeper still.”</p>
+        <footer>— Richard Feynman</footer>
+      </blockquote>
+    </header>
+
+    <!-- ===== Publications ===== -->
+    <section>
+      <h2>Publications &amp; preprints</h2>
+      <ol class="pub-list">
+        <li>
+          <strong>Mocherla, S. V.</strong>, &amp; Ramakrishnan, R.
+          <em>Variational augmentation of Gaussian continuum basis sets for calculating atomic higher harmonic generation spectra.</em>
+          arXiv preprint
+          <a href="https://arxiv.org/abs/2307.00732" target="_blank" rel="noopener">arXiv:2307.00732</a>
+          (2023).
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== Current ===== -->
+    <section>
+      <h2>Current research</h2>
+
+      <article class="project">
+        <header class="project-head">
+          <h3>Inelastic scattering of noble gases from Au(111)</h3>
+          <p class="meta mono">
+            Ph.D. thesis · 02/2024 – present<br />
+            Advisor: Prof. Pranav R. Shirhatti, Surface Dynamics Group, TIFR Hyderabad
+          </p>
+        </header>
+        <p>
+          Understanding how energy is transferred between gas-phase atoms and solid surfaces
+          is a fundamental question in surface dynamics. My thesis focuses on the inelastic
+          scattering of Kr, Ar, and Xe from Au(111) using molecular beam techniques.
+          By measuring angular and energy distributions of scattered atoms we extract
+          detailed information about energy-transfer mechanisms — including phonon
+          excitation and trapping/desorption channels. The project also includes the
+          development of fast high-voltage switches for charge-particle extraction in
+          coincidence experiments.
+        </p>
+      </article>
+
+      <article class="project">
+        <header class="project-head">
+          <h3>Machine-learning interatomic potentials for C-atom scattering on Au(111)</h3>
+          <p class="meta mono">
+            Visiting student · 01/2025 – 03/2025<br />
+            Advisor: Prof. Alexander Kandratsenka, Max Planck Institute of Multidisciplinary Sciences, Göttingen
+          </p>
+        </header>
+        <p>
+          During a three-month visit to the Kandratsenka group, I performed plane-wave DFT
+          calculations to generate training data for ML-based interatomic potentials (MLIPs).
+          These potentials simulate carbon-atom scattering on Au(111) — a system where
+          non-adiabatic dissipation via electronic friction plays a significant role. I also
+          contributed to electronic-friction-based models for gas–surface scattering more broadly.
+        </p>
+        <p class="links">[ <a href="/docs/c_atom_scattering.pdf" target="_blank" rel="noopener">Report</a> ]</p>
+      </article>
+    </section>
+
+    <!-- ===== Earlier ===== -->
+    <section>
+      <h2>Earlier projects</h2>
+
+      <article class="project">
+        <header class="project-head">
+          <h3>Optimized Gaussian basis sets for atomic high-harmonic generation</h3>
+          <p class="meta mono">
+            Junior Research Fellow · 09/2021 – 05/2023<br />
+            Advisor: Prof. Raghunathan Ramakrishnan,
+            <a href="https://moldis-group.github.io/" target="_blank" rel="noopener">MolDis Group</a>, TIFR Hyderabad
+          </p>
+        </header>
+        <p>
+          High-harmonic generation (HHG) spectra probe ultrafast electron dynamics, but standard
+          Gaussian basis sets struggle to describe the oscillatory continuum-like states involved
+          in strong-field processes. I developed a variational method to augment Gaussian bases
+          with continuum functions optimized for atomic HHG spectra computed via time-dependent
+          configuration interaction (TDCI), making accurate HHG calculations tractable within a
+          localized-basis framework.
+        </p>
+        <p class="links">[ <a href="https://arxiv.org/abs/2307.00732" target="_blank" rel="noopener">arXiv:2307.00732</a> ]</p>
+      </article>
+
+      <article class="project two-col">
+        <div class="proj-text">
+          <header class="project-head">
+            <h3>Pure dephasing and localization in open quantum systems</h3>
+            <p class="meta mono">
+              Final project, CHM-452 Quantum Dynamics<br />
+              Advisor: Prof. Ignacio Franco, University of Rochester
+            </p>
+          </header>
+          <p>
+            I derived a Lindbladian master equation for a 1D tight-binding model interacting
+            with a pure dephasing bath, then numerically solved the Liouville–von Neumann
+            equation for disorder-averaged site populations in the long-time limit. The
+            calculations showed that localization can be tuned via system–bath coupling.
+          </p>
+          <p class="links">[ <a href="https://github.com/vijaymocherla/Localisation-in-Open-quantum-systems.git" target="_blank" rel="noopener">Code</a> ]</p>
+        </div>
+        <figure>
+          <img src="/img/disordered_systems.webp" alt="Illustration of a disordered system" />
+          <figcaption>Illustration of a disordered system.</figcaption>
+        </figure>
+      </article>
+
+      <article class="project two-col">
+        <div class="proj-text">
+          <header class="project-head">
+            <h3>Discrete-space random walks</h3>
+            <p class="meta mono">
+              Summer research internship<br />
+              Advisor: Prof. Upendra Harbola, Indian Institute of Science, Bangalore
+            </p>
+          </header>
+          <p>
+            I worked through Nitzan and Spitzer to understand classical random walks on
+            lattices and explored their connection to exciton transport models in mesoscopic
+            systems through rudimentary numerical experiments.
+          </p>
+          <p class="links">[ <a href="https://github.com/vijaymocherla/Random-walk-on-2D-lattice.git" target="_blank" rel="noopener">Code</a> ]</p>
+        </div>
+        <figure>
+          <img src="/img/2dwalk_simulation.webp" alt="A random walk on a 2D lattice" />
+          <figcaption>A random walk on a 2D lattice.</figcaption>
+        </figure>
+      </article>
+
+      <article class="project two-col">
+        <div class="proj-text">
+          <header class="project-head">
+            <h3>Torsional disorder and exciton transport in conjugated polymers</h3>
+            <p class="meta mono">
+              Master's thesis<br />
+              Sri Sathya Sai Institute of Higher Learning
+            </p>
+          </header>
+          <p>
+            I developed a model of an exciton coupled to rotational degrees of freedom of
+            chromophore sub-units in a conjugated polymer. After deriving an analytic
+            expression for the time-averaged transition probability in ordered chains, I
+            used exact diagonalization to compute disorder-averaged quantities for static
+            and dynamic torsional disorder, finding that exciton migration rates decreased
+            inversely with polymer length.
+          </p>
+          <p class="links">[
+            <a href="/docs/masters_thesis_FirstDraft.pdf" target="_blank" rel="noopener">Thesis</a> |
+            <a href="/docs/masters_presentation.pdf" target="_blank" rel="noopener">Slides</a>
+          ]</p>
+        </div>
+        <figure>
+          <img src="/img/conjugated_polymer.webp" alt="Poly(p-phenylene)" />
+          <figcaption>Poly(p-phenylene), a conjugated polymer.</figcaption>
+        </figure>
+      </article>
+
+      <article class="project two-col">
+        <div class="proj-text">
+          <header class="project-head">
+            <h3>Surface plasmon polaritons in plasmonic quasi-crystals</h3>
+            <p class="meta mono">
+              Summer internship project<br />
+              Advisor: Prof. Venu Gopal Achanta, TIFR Mumbai
+            </p>
+          </header>
+          <p>
+            I used electron-beam lithography and reactive-ion etching to fabricate
+            quasi-periodic hole arrays on gold thin films, and used pump–probe spectroscopy
+            to study the dynamics of surface-plasmon polaritons in these nanophotonic
+            structures — relevant to broadband transmission and solar-energy applications.
+          </p>
+          <p class="links">[ <a href="/docs/plasmonic_quasicrystals_report.pdf" target="_blank" rel="noopener">Report</a> ]</p>
+        </div>
+        <figure>
+          <img src="/img/plqc.webp" alt="SEM image of a plasmonic quasi-crystal" />
+          <figcaption>SEM image of a plasmonic quasi-crystal.</figcaption>
+        </figure>
+      </article>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .research { padding-top: 3rem; }
+  .page-head { margin-bottom: 2rem; }
+  .page-head h1 { margin: 0.2rem 0 0.6rem; }
+  .kicker {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .lead { font-size: 1.08rem; color: var(--text-muted); max-width: 64ch; }
+
+  .pub-list { padding-left: 1.2rem; }
+  .pub-list li { margin: 0.5rem 0; line-height: 1.55; }
+
+  .project {
+    padding: 1.4rem 0 0.4rem;
+    border-top: 1px solid var(--border);
+    margin-top: 1.4rem;
+  }
+  .project-head h3 { margin: 0 0 0.3rem; font-size: 1.18rem; }
+  .meta {
+    color: var(--text-faint);
+    font-size: 0.82rem;
+    margin: 0 0 0.9rem;
+    line-height: 1.55;
+  }
+  .meta a { color: var(--text-muted); }
+  .links { font-size: 0.92rem; color: var(--text-muted); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .two-col figure { margin: 0; }
+  .two-col img {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    width: 100%;
+    height: auto;
+  }
+  .two-col figcaption {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .two-col figure { order: -1; max-width: 260px; margin: 0 auto; }
+  }
+</style>

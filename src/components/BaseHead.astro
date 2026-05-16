@@ -1,0 +1,85 @@
+---
+// Global head for every page. Handles meta, favicons, fonts, KaTeX CSS,
+// theme-flash prevention, and analytics.
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  image = '/img/psi_192.png',
+  type = 'website',
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${SITE_TITLE}` : SITE_TITLE;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+const ogImage = new URL(image, Astro.site ?? SITE_URL);
+---
+
+<!-- Charset & viewport -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="/img/psi_16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/img/psi_32.png" />
+<link rel="icon" type="image/png" sizes="180x180" href="/img/psi_180.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/img/psi_180.png" />
+
+<!-- SEO -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="author" content="Sai Vijay Mocherla" />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- RSS -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={SITE_TITLE}
+  href={new URL('/rss.xml', Astro.site ?? SITE_URL)}
+/>
+
+<!-- No-flash theme script: set data-theme BEFORE first paint -->
+<script is:inline>
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = stored || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (_) {
+      /* localStorage blocked — fall back to CSS media query */
+    }
+  })();
+</script>
+
+<!-- Google Analytics (preserved from legacy site) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6XC34E4YFT"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6XC34E4YFT');
+</script>

@@ -1,0 +1,113 @@
+---
+import { NAV, SITE_TITLE } from '../consts';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+function isActive(href: string) {
+  const norm = href.replace(/\/+$/, '') || '/';
+  if (norm === '/') return pathname === '/';
+  return pathname === norm || pathname.startsWith(norm + '/');
+}
+---
+
+<header class="site-header">
+  <div class="container-wide header-inner">
+    <a class="brand" href="/" aria-label={SITE_TITLE}>
+      <span class="brand-mark">ψ</span>
+      <span class="brand-text">Sai Vijay Mocherla</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={isActive(item.href) ? 'active' : ''}
+              {...(item.href.endsWith('.pdf') ? { target: '_blank', rel: 'noopener' } : {})}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(160%) blur(10px);
+    -webkit-backdrop-filter: saturate(160%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: 60px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--text);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .brand:hover { color: var(--accent); text-decoration: none; }
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--accent);
+    background: var(--bg-elev);
+  }
+
+  .nav {
+    margin-left: auto;
+  }
+  .nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.25rem;
+  }
+  .nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+  }
+  .nav a:hover {
+    color: var(--text);
+    background: var(--bg-elev);
+    text-decoration: none;
+  }
+  .nav a.active {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  @media (max-width: 600px) {
+    .brand-text { display: none; }
+    .nav a { padding: 0.35rem 0.55rem; font-size: 0.9rem; }
+    .header-inner { gap: 0.6rem; }
+  }
+</style>

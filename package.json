@@ -1,0 +1,23 @@
+{
+  "name": "vijaymocherla.github.io",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal website of Sai Vijay Mocherla",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.9",
+    "@astrojs/rss": "^4.0.10",
+    "@astrojs/sitemap": "3.2.1",
+    "astro": "^4.16.18",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "katex": "^0.16.11"
+  }
+}

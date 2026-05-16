@@ -1,0 +1,92 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  updated?: Date;
+  tags?: string[];
+  heroImage?: string;
+}
+
+const { title, description, date, updated, tags = [], heroImage } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={heroImage} type="article">
+  <article class="post container">
+    <header class="post-header">
+      <p class="kicker mono">
+        <a href="/blog/">← Blog</a>
+      </p>
+      <h1>{title}</h1>
+      <div class="post-meta mono">
+        <FormattedDate date={date} />
+        {updated && (
+          <>
+            <span class="dot">·</span>
+            <span>updated <FormattedDate date={updated} /></span>
+          </>
+        )}
+        {tags.length > 0 && (
+          <>
+            <span class="dot">·</span>
+            <span class="tags-inline">
+              {tags.map((t) => (
+                <a class="tag" href={`/tags/${t}/`}>{t}</a>
+              ))}
+            </span>
+          </>
+        )}
+      </div>
+      {description && <p class="lead muted">{description}</p>}
+    </header>
+
+    {heroImage && (
+      <figure class="hero-fig">
+        <img src={heroImage} alt="" />
+      </figure>
+    )}
+
+    <div class="prose post-body">
+      <slot />
+    </div>
+
+    <footer class="post-footer">
+      <p class="muted">
+        Thanks for reading. Comments and corrections welcome by
+        <a href="mailto:vijaysai.mocherla@gmail.com">email</a>.
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post { padding-top: 3rem; max-width: var(--max-w); }
+  .post-header { margin-bottom: 1.6rem; }
+  .post-header h1 { margin: 0.4rem 0 0.7rem; }
+  .kicker { margin: 0; font-size: 0.85rem; }
+  .kicker a { color: var(--text-muted); text-decoration: none; }
+  .kicker a:hover { color: var(--accent); }
+  .post-meta {
+    color: var(--text-faint);
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .dot { color: var(--text-faint); }
+  .tags-inline { display: inline-flex; gap: 0.3rem; flex-wrap: wrap; }
+  .lead { font-size: 1.1rem; margin-top: 1rem; max-width: 60ch; }
+  .hero-fig { margin: 2rem 0; }
+  .hero-fig img { border-radius: var(--radius); border: 1px solid var(--border); }
+  .post-body { margin-top: 1rem; }
+  .post-footer {
+    margin-top: 3.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+</style>

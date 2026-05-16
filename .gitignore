@@ -1,6 +1,42 @@
+# Astro build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+
+# Claude
+.claude
+
+# legacy Jekyll site (kept in repo for reference, build artifacts ignored)
+_legacy/.bundle/
+_legacy/_site/
+_legacy/.sass-cache/
+_legacy/.jekyll-cache/
+_legacy/.jekyll-metadata
+_legacy/vendor/
+
+# old roots (no longer present, but ignored just in case)
 _site
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
 vendor
-.claude

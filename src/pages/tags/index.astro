@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const counts = new Map<string, number>();
+for (const post of posts) {
+  for (const t of post.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+}
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags" description="Browse blog posts by tag.">
+  <article class="container">
+    <header class="page-head">
+      <p class="kicker mono"><a href="/blog/">← Blog</a></p>
+      <h1>Tags</h1>
+      <p class="lead muted">Browse posts by topic.</p>
+    </header>
+
+    {tags.length === 0 && <p class="muted">No tags yet.</p>}
+
+    <div class="tag-cloud">
+      {tags.map(([tag, n]) => (
+        <a class="tag" href={`/tags/${tag}/`}>
+          {tag} <span class="tag-count">{n}</span>
+        </a>
+      ))}
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-head { margin: 3rem 0 1.5rem; }
+  .page-head h1 { margin: 0.3rem 0 0.4rem; }
+  .kicker { margin: 0; }
+  .kicker a { color: var(--text-muted); text-decoration: none; }
+  .kicker a:hover { color: var(--accent); }
+  .lead { font-size: 1.05rem; max-width: 60ch; }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag-count { color: var(--text-faint); font-size: 0.8em; margin-left: 0.2em; }
+</style>

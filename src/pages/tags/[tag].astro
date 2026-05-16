@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tagSet = new Set<string>();
+  for (const post of posts) for (const t of post.data.tags) tagSet.add(t);
+
+  return [...tagSet].map((tag) => {
+    const tagged = posts
+      .filter((p) => p.data.tags.includes(tag))
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    return {
+      params: { tag },
+      props: { tag, posts: tagged },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`Tag: ${tag}`}
+  description={`Posts tagged "${tag}".`}
+>
+  <article class="container">
+    <header class="page-head">
+      <p class="kicker mono"><a href="/tags/">← All tags</a></p>
+      <h1>#{tag}</h1>
+      <p class="lead muted">{posts.length} post{posts.length === 1 ? '' : 's'} tagged <code>{tag}</code>.</p>
+    </header>
+
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <a class="post-link" href={`/blog/${post.slug}/`}>
+            <span class="post-title">{post.data.title}</span>
+            <span class="post-date mono"><FormattedDate date={post.data.date} /></span>
+          </a>
+          {post.data.description && <p class="post-desc muted">{post.data.description}</p>}
+        </li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-head { margin: 3rem 0 1.5rem; }
+  .page-head h1 { margin: 0.3rem 0 0.4rem; font-family: var(--font-mono); }
+  .kicker { margin: 0; }
+  .kicker a { color: var(--text-muted); text-decoration: none; }
+  .kicker a:hover { color: var(--accent); }
+  .lead { font-size: 1.05rem; max-width: 60ch; }
+  .post-list { list-style: none; padding: 0; display: grid; gap: 0.2rem; }
+  .post-list li { padding: 1rem 0; border-top: 1px solid var(--border); }
+  .post-list li:first-child { border-top: none; }
+  .post-link {
+    display: flex; justify-content: space-between; gap: 1rem; align-items: baseline;
+    color: var(--text); text-decoration: none;
+  }
+  .post-link:hover .post-title { color: var(--accent); }
+  .post-title { font-weight: 600; font-size: 1.05rem; }
+  .post-date { color: var(--text-faint); font-size: 0.85rem; white-space: nowrap; }
+  .post-desc { margin: 0.35rem 0 0; font-size: 0.95rem; line-height: 1.55; }
+</style>
