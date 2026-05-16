@@ -15,6 +15,8 @@ author: Sai Vijay Mocherla
 ```
 Spack is a package manager for HPC clusters and supercomputers. It makes life easy by letting you install a software packages on your machine without the hassel of conflicting dependencies. With spack you can compile multiple version of a package with different configurations and compilers. Yes you've heard it right, all of this can co-exist in one place!
 
+<!--more-->
+
 Here's a simple hitchhiker's guide, mostly for researchers/scientists who want to multiple software packages under one roof but sans the headache of dependency nightmares. Skimming through this tutorial will let you use spack as package manager for your work stations (or even personal machines). I assume that you are running some flavor of linux, but for the most part things from this guide can be extended to MacOS. 
 
 Note: For people who have used conda/homebrew, most of the stuff here will be intuitive but I have tried explain the details so that you can use spack's versatile features.
