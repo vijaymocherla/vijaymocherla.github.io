@@ -19,5 +19,6 @@ export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/research/', label: 'Research' },
   { href: '/blog/', label: 'Blog' },
+  { href: '/links/', label: 'Links' },
   { href: '/docs/vijay_cv.pdf', label: 'CV' },
 ];

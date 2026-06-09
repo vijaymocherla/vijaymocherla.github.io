@@ -45,11 +45,17 @@ const recent = allPosts.slice(0, 3);
       chemical physics and AMO physics.
     </p>
     <p>
-      Currently, I am a graduate student working with Prof. Pranav R. Shirhatti in the
+      Currently, I am a Ph.D. student working with Prof. Pranav R. Shirhatti in the
       <a href="https://www.tifrh.res.in/~pranavrs/" target="_blank" rel="noopener">Surface Dynamics Group</a>
       at the
       <a href="https://www.tifrh.res.in/" target="_blank" rel="noopener">Tata Institute of Fundamental Research — Hyderabad</a>.
-      My thesis work focuses on the inelastic scattering of noble gases (Kr, Ar, Xe) from Au(111).
+      My thesis focuses on the dynamics of gas–surface scattering in noble-gas–metal interfaces,
+      specifically the inelastic scattering of Kr, Ar, and Xe from Au(111).
+    </p>
+    <p>
+      You can reach me at
+      <a href="mailto:vijaysai.mocherla@gmail.com">vijaysai.mocherla@gmail.com</a> or
+      <a href="mailto:smocherla@tifrh.res.in">smocherla@tifrh.res.in</a>.
     </p>
   </section>
 
@@ -58,28 +64,30 @@ const recent = allPosts.slice(0, 3);
     <h2>Education</h2>
     <ul class="timeline">
       <li>
-        <div class="t-when mono">2024 — present</div>
+        <div class="t-when mono">Feb 2024 — present</div>
         <div class="t-body">
           <strong>Ph.D. in Physics</strong> · TIFR Hyderabad<br />
-          <span class="muted">Surface Dynamics Group, advisor: Prof. Pranav R. Shirhatti</span>
+          <span class="muted">Surface Dynamics Group · advisor: Prof. Pranav R. Shirhatti</span>
         </div>
       </li>
       <li>
-        <div class="t-when mono">2020</div>
+        <div class="t-when mono">Aug 2020</div>
         <div class="t-body">
-          <strong>M.S. in Chemistry</strong> · University of Rochester
+          <strong>M.S. in Chemistry</strong> · University of Rochester, USA<br />
+          <span class="muted">CGPA: 3.72 / 4.00</span>
         </div>
       </li>
       <li>
-        <div class="t-when mono">2019</div>
+        <div class="t-when mono">Apr 2019</div>
         <div class="t-body">
-          <strong>M.Sc. in Chemistry</strong> · Sri Sathya Sai Institute of Higher Learning
+          <strong>M.Sc. in Chemistry</strong> · Sri Sathya Sai Institute of Higher Learning, Prasanthi Nilayam<br />
+          <span class="muted">Thesis: Effect of Torsional Disorder on Exciton Migration in Conjugated Polymers</span>
         </div>
       </li>
       <li>
-        <div class="t-when mono">2016</div>
+        <div class="t-when mono">Apr 2016</div>
         <div class="t-body">
-          <strong>B.Sc. (Honors) in Chemistry</strong> · Sri Sathya Sai Institute of Higher Learning
+          <strong>B.Sc. (Honors) in Chemistry</strong> · Sri Sathya Sai Institute of Higher Learning, Bangalore
         </div>
       </li>
     </ul>
@@ -92,20 +100,36 @@ const recent = allPosts.slice(0, 3);
       <li>
         <div class="t-when mono">Jan–Mar 2025</div>
         <div class="t-body">
-          <strong>Visiting student</strong> · Max Planck Institute of Multidisciplinary Sciences, Göttingen<br />
-          <span class="muted">Plane-wave DFT and ML interatomic potentials for C-atom scattering on Au(111).</span>
+          <strong>Visiting Student</strong> · Max Planck Institute of Multidisciplinary Sciences, Göttingen<br />
+          <span class="muted">Advisor: Prof. Alexander Kandratsenka. Plane-wave DFT and ML interatomic potentials for C-atom scattering on Au(111).</span>
         </div>
       </li>
       <li>
-        <div class="t-when mono">2021 — 2023</div>
+        <div class="t-when mono">Sep 2021 — May 2023</div>
         <div class="t-body">
-          <strong>Junior Research Fellow</strong> · TIFR Hyderabad, MolDis Group (Prof. R. Ramakrishnan)<br />
-          <span class="muted">TDCI for ultrafast electron dynamics; optimized Gaussian basis sets for HHG spectra.</span>
+          <strong>Junior Research Fellow</strong> · TIFR Hyderabad,
+          <a href="https://moldis-group.github.io/" target="_blank" rel="noopener">MolDis Group</a>
+          (Prof. Raghunathan Ramakrishnan)<br />
+          <span class="muted">TDCI for ultrafast electron dynamics; variational Gaussian basis sets for atomic HHG spectra.</span>
+        </div>
+      </li>
+      <li>
+        <div class="t-when mono">May 2020 — Feb 2021</div>
+        <div class="t-body">
+          <strong>Project Student</strong> · University of Rochester, New York<br />
+          <span class="muted">Advisor: Prof. Andrew Jordan, Department of Physics and Astronomy. Vortex-matter phases in type-II superconductors and quantum refrigeration via fluxons.</span>
+        </div>
+      </li>
+      <li>
+        <div class="t-when mono">Apr–Jun 2018</div>
+        <div class="t-body">
+          <strong>Visiting Student</strong> · TIFR Mumbai<br />
+          <span class="muted">Advisor: Prof. Venu Gopal Achanta, Condensed Matter Physics. Optical nanostructures, plasmonic quasi-crystals, and e-beam lithography.</span>
         </div>
       </li>
     </ul>
     <p class="muted">
-      See <a href="/research/">Research</a> for the full list of projects and writeups.
+      See <a href="/research/">Research</a> for project writeups and publications.
     </p>
   </section>
 
@@ -119,7 +143,7 @@ const recent = allPosts.slice(0, 3);
       <ul class="post-list">
         {recent.map((p) => (
           <li>
-            <a class="post-link" href={`/blog/${p.slug}/`}>
+            <a class="post-link" href={`/blog/${p.id}/`}>
               <span class="post-title">{p.data.title}</span>
               <span class="post-date mono"><FormattedDate date={p.data.date} /></span>
             </a>

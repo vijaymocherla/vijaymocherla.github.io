@@ -4,6 +4,7 @@
 
 /* ---- Tokens: light theme (default) ---- */
 :root {
+  color-scheme: light;
   --bg: #ffffff;
   --bg-elev: #f7f8fa;
   --bg-code: #f4f4f5;
@@ -11,14 +12,13 @@
   --border-strong: #d4d4d8;
   --text: #18181b;
   --text-muted: #52525b;
-  --text-faint: #a1a1aa;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-soft: #dbeafe;
+  --text-faint: #71717a;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: #e0e7ff;
   --selection: #c7d2fe;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-sans: "Inter", "Source Sans Pro", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
@@ -33,31 +33,36 @@
   --transition: 150ms ease;
 }
 
+/* ---- Tokens: light theme (explicit) ---- */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
 /* ---- Tokens: dark theme ---- */
 :root[data-theme="dark"] {
   --bg: #0b0d10;
   --bg-elev: #14171c;
-  --bg-code: #15181d;
+  --bg-code: #1e2228;
   --border: #232830;
   --border-strong: #313844;
   --text: #e6e7e9;
   --text-muted: #a0a4ac;
   --text-faint: #6b7280;
-  --accent: #7dd3fc;       /* cyan-300 — pops nicely on near-black */
-  --accent-hover: #38bdf8;
-  --accent-soft: #0e2538;
-  --selection: #1e3a5f;
+  --accent: #818cf8;       
+  --accent-hover: #a5b4fc;
+  --accent-soft: #1e1b4b;
+  --selection: #312e81;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
-/* Respect OS preference when no manual choice is set */
+/* Respect OS preference when JS is disabled (no data-theme set) */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
     --bg: #0b0d10;
     --bg-elev: #14171c;
-    --bg-code: #15181d;
+    --bg-code: #1e2228;
     --border: #232830;
     --border-strong: #313844;
     --text: #e6e7e9;
@@ -82,7 +87,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-sans);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 16.5px;
   line-height: 1.65;
   font-feature-settings: "kern", "liga", "calt";
@@ -116,8 +121,8 @@ hr {
 
 /* ---- Typography ---- */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  font-weight: 650;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
   letter-spacing: -0.015em;
   color: var(--text);
   line-height: 1.25;
@@ -143,7 +148,7 @@ code, kbd, samp, pre {
   font-size: 0.88em;
 }
 pre {
-  background: var(--bg-code) !important;
+  background: var(--bg-code);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1em 1.15em;
@@ -153,6 +158,24 @@ pre {
   margin: 1.4em 0;
 }
 pre code { background: transparent; border: none; padding: 0; font-size: inherit; }
+
+/* Shiki dual-theme: switch to dark-theme colors when dark mode is active.
+   The light-theme colors are baked in as inline styles; --shiki-dark and
+   --shiki-dark-bg are CSS custom properties emitted by Astro's Shiki. */
+[data-theme="dark"] .astro-code,
+[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style, inherit) !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .astro-code,
+  :root:not([data-theme]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style, inherit) !important;
+  }
+}
 
 blockquote {
   margin: 1.4em 0;

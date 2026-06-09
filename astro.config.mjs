@@ -8,14 +8,10 @@ import rehypeKatex from 'rehype-katex';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://vijaymocherla.github.io',
-  // base: '/', // root user/org page — keep base at '/'
-  integrations: [
-    mdx({
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
-    }),
-    sitemap(),
-  ],
+  integrations: [mdx({
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
+  }), sitemap()],
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],

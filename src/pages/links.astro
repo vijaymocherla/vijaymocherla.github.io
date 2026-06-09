@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Useful Links"
+  description="A collection of resourceful links and lecture notes for physicists."
+>
+  <article class="container links-page">
+    <header class="page-head">
+      <p class="kicker mono">Links</p>
+      <h1>Useful Links</h1>
+      <p class="lead">
+        Beginning from research articles to lecture notes and some quick numerical
+        tricks for computational physics, I have posted links to things on the
+        internet that I've found resourceful as a physicist.
+      </p>
+      <p class="note">
+        <strong>Note:</strong> I try my best to keep links updated from time to time.
+        In case you find something missing or broken, sorry about that — just try
+        googling! If there's something seriously wrong, please drop me an email.
+      </p>
+    </header>
+
+    <section>
+      <h2>Articles and Essays</h2>
+      <p>
+        A list of thought-provoking articles and essays relating to different aspects
+        of science and research, that I revisit quite frequently for inspiration.
+      </p>
+      <ul class="link-list">
+        <li><a href="https://science.sciencemag.org/content/177/4047/393" target="_blank" rel="noopener">"More is different"</a> — Phil Anderson</li>
+        <li><a href="https://www.pnas.org/content/97/1/28" target="_blank" rel="noopener">"Theory of Everything"</a> — Robert Laughlin and David Pines</li>
+        <li><a href="https://www.cs.virginia.edu/~robins/YouAndYourResearch.html" target="_blank" rel="noopener">"You and your research"</a> — Richard Hamming</li>
+        <li><a href="https://www.ams.org/notices/200902/rtx090200212p.pdf" target="_blank" rel="noopener">"Birds and Frogs"</a> — Freeman Dyson</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Lecture Notes &amp; Videos</h2>
+      <p>
+        Frankly, there are way too many of these online. I've only listed resources
+        that I've found exceptionally useful and have something unique to offer.
+      </p>
+      <ul class="link-list">
+        <li>
+          <a href="http://www.damtp.cam.ac.uk/user/tong/teaching.html" target="_blank" rel="noopener">Lectures on Theoretical Physics</a>
+          — David Tong
+        </li>
+        <li>
+          <a href="http://www.tcm.phy.cam.ac.uk/~bds10/grad_lec.html" target="_blank" rel="noopener">Quantum Condensed Matter Physics</a>
+          — Ben Simons
+        </li>
+        <li>
+          <a href="https://www.perimeterinstitute.ca/training/perimeter-scholars-international/lectures/2011/2012-psi-lectures" target="_blank" rel="noopener">PSI Masters Lecture Videos 2011/2012</a>
+          — Perimeter Institute<br />
+          <span class="note-inline">Particularly: Mathematical Physics (Carl Bender), Statistical Physics (Leo Kadanoff), Condensed Matter Physics (Nandini Trivedi).</span>
+        </li>
+        <li>
+          Lectures on Quantum Theory — Frederic Schuller
+          (<a href="https://youtube.com/playlist?list=PLPH7f_7ZlzxQVx5jRjbfRGEzWY_upS5K6" target="_blank" rel="noopener">Lectures</a> |
+          <a href="http://mathswithphysics.blogspot.com/2016/07/frederic-schullers-lectures-on-quantum.html" target="_blank" rel="noopener">Notes</a>)
+        </li>
+        <li>
+          Lectures on Geometric Anatomy of Theoretical Physics — Frederic Schuller
+          (<a href="https://youtube.com/playlist?list=PLPH7f_7ZlzxTi6kS4vCmv4ZKm9u8g5yic" target="_blank" rel="noopener">Lectures</a> |
+          <a href="http://mathswithphysics.blogspot.com/2016/07/lectures-on-geometric-anatomy-of.html" target="_blank" rel="noopener">Notes</a>)
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Software and Scientific Computing</h2>
+      <p>
+        At times solving problems in physics requires a bit of skill to get computers
+        to do things for you. Here I share things I've had the chance to dabble with
+        in my research.
+      </p>
+      <ul class="link-list">
+        <li>
+          <strong>Simulation / Numerics:</strong>
+          <a href="https://www.mathworks.com/products/matlab.html" target="_blank" rel="noopener">MATLAB</a> |
+          <a href="https://www.wolfram.com/mathematica/" target="_blank" rel="noopener">Mathematica</a> (especially for symbolic calculations)
+        </li>
+        <li>
+          <a href="https://www.wolframalpha.com/" target="_blank" rel="noopener">Wolfram Alpha</a>
+          — quick math intuition online
+        </li>
+        <li>
+          <strong>Programming Languages:</strong>
+          <a href="https://fortran-lang.org/" target="_blank" rel="noopener">Fortran</a> |
+          <a href="https://www.python.org/" target="_blank" rel="noopener">Python</a>
+          (<a href="https://www.anaconda.com/products/individual" target="_blank" rel="noopener">Anaconda</a>) |
+          <a href="https://julialang.org/" target="_blank" rel="noopener">Julia</a>
+        </li>
+        <li>
+          <a href="https://www.scipy.org/about.html" target="_blank" rel="noopener">SciPy</a>
+          — scientific computing tools for Python
+        </li>
+        <li>
+          <a href="https://www.netlib.org" target="_blank" rel="noopener">netlib</a>
+          — Fortran and C package library for science
+          (<a href="http://www.moreisdifferent.com/2015/07/16/why-physicsts-still-use-fortran/" target="_blank" rel="noopener">Why physicists still use Fortran?</a>)
+        </li>
+        <li>
+          <a href="https://www.latex-project.org/about/" target="_blank" rel="noopener">LaTeX</a>
+          — for typesetting equations and drafting papers.
+          Editors: Texmaker, TeXstudio,
+          <a href="https://www.overleaf.com/" target="_blank" rel="noopener">Overleaf</a> (online)
+        </li>
+        <li>
+          <a href="https://github.com/Reference-LAPACK/lapack" target="_blank" rel="noopener">Reference-LAPACK</a>
+          on GitHub |
+          <a href="https://ctan.org/?lang=en" target="_blank" rel="noopener">CTAN</a> — LaTeX package archive
+        </li>
+        <li>
+          <strong>Text editors:</strong>
+          <a href="https://www.sublimetext.com/" target="_blank" rel="noopener">Sublime Text</a> |
+          <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code</a> |
+          <a href="https://www.vim.org/" target="_blank" rel="noopener">Vim</a>
+        </li>
+        <li>
+          <a href="https://spack.io/" target="_blank" rel="noopener">Spack</a>
+          — a package manager for HPC
+        </li>
+        <li>
+          <a href="/presentation/scf-convergence-and-diis/notebooks/scf-convergence-and-diis-notebook.html" target="_blank" rel="noopener">My interactive notes on SCF convergence and DIIS</a>
+        </li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .links-page { padding-top: 3rem; }
+  .page-head { margin-bottom: 2rem; }
+  .page-head h1 { margin: 0.2rem 0 0.6rem; }
+  .kicker {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .lead { font-size: 1.08rem; color: var(--text-muted); max-width: 64ch; }
+  .note {
+    font-size: 0.9rem;
+    color: var(--text-faint);
+    margin-top: 0.75rem;
+  }
+
+  section { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  section h2 { margin-top: 0; }
+
+  .link-list {
+    padding-left: 1.2rem;
+    margin: 0.75rem 0 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .link-list li { line-height: 1.6; }
+
+  .note-inline {
+    font-size: 0.88rem;
+    color: var(--text-faint);
+  }
+</style>
